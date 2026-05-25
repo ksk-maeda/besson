@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BESSON — Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white:     #ffffff;
+  --off-white: #f9f8f6;
+  --stone:     #e8e3db;
+  --cream:     #f2efe9;
+  --gray-lt:   rgba(154,125,82,0.15);
+  --gray-mid:  #8a8680;
+  --gray-dark: #3a3835;
+  --black:     #1a1916;
+  --gold:      #9a7d52;
+  --gold-mid:  #b89a6a;
+  --font-en:   'Cormorant Garamond', Georgia, serif;
+  --font-ja:   'Noto Sans JP', 'Hiragino Sans', sans-serif;
+  --nav-h:     52px;
+  --px:        1.25rem;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: #f9f8f6;
+  color: var(--black);
+  font-family: var(--font-ja);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(249,248,246,0.97);
+  backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--px);
+  height: var(--nav-h);
+}
+
+.nav-logo {
+  font-family: var(--font-en);
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  color: var(--black);
+  text-decoration: none;
+}
+
+.nav-hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 20px; height: 0.5px;
+  background: var(--black);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav-hamburger.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+.nav-drawer {
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0;
+  background: rgba(249,248,246,0.99);
+  z-index: 199;
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  border-bottom: 0.5px solid rgba(154,125,82,0.1);
+}
+
+.nav-drawer.open { max-height: 300px; }
+
+.nav-drawer a {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 1rem var(--px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.1);
+  transition: color 0.2s;
+}
+
+.nav-drawer a:last-child { border-bottom: none; }
+/* ── NAV ACTIVE ── */
+.nav-drawer a.active {
+  color: var(--black);
+  font-weight: 500;
+}
+
+
+/* ── PAGE HERO ── */
+.page-hero {
+  margin-top: var(--nav-h);
+  padding: 4rem var(--px) 3rem;
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+}
+
+.page-eyebrow {
+  font-size: 0.52rem;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.page-eyebrow::before {
+  content: '';
+  display: block;
+  width: 16px; height: 0.5px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+.page-title {
+  font-family: var(--font-ja);
+  font-size: clamp(2rem, 9vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin-bottom: 1.5rem;
+}
+
+.page-lead {
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+  color: var(--gray-dark);
+}
+
+/* ── PHOTO PLACEHOLDER ── */
+.ph {
+  width: 100%; height: 100%;
+  background: var(--off-white);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ph::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border: 0.5px solid rgba(154,125,82,0.25);
+}
+
+.ph-lh { position: absolute; top:50%; left:0; right:0; height:0.5px; background:rgba(160,160,160,0.2); }
+.ph-lv { position: absolute; left:50%; top:0; bottom:0; width:0.5px; background:rgba(160,160,160,0.2); }
+
+.ph-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  color: rgba(154,125,82,0.45);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 2.2;
+  position: relative;
+  z-index: 1;
+}
+
+.photo-full {
+  width: 100%;
+  aspect-ratio: 4/5;
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-wide {
+  width: 100%;
+  aspect-ratio: 16/9;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── SECTION ── */
+.section {
+  padding: 3.5rem var(--px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+}
+
+.section:last-of-type { border-bottom: none; }
+
+.section-num {
+  font-size: 0.5rem;
+  letter-spacing: 0.25em;
+  color: var(--gray-lt);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.section-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 16px; height: 0.5px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+.section-heading {
+  font-size: clamp(1.5rem, 7vw, 2rem);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  margin-bottom: 1.5rem;
+}
+
+.section-body {
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+  color: var(--gray-mid);
+  margin-bottom: 1.5rem;
+}
+
+.section-body + .section-body { margin-top: -0.5rem; }
+
+/* ── QUOTE ── */
+.quote-block {
+  padding: 4rem var(--px);
+  text-align: center;
+  background: #f2efe9;
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+}
+
+.quote-text {
+  font-family: var(--font-en);
+  font-size: clamp(1.3rem, 6vw, 1.8rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  color: var(--black);
+  margin-bottom: 1.25rem;
+}
+
+.quote-attr {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+/* ── DARK BAND ── */
+.dark-band {
+  background: #18150f;
+  padding: 3.5rem var(--px);
+  position: relative;
+}
+
+.dark-band::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent 5%, rgba(212,185,138,0.55) 50%, transparent 95%);
+}
+
+.dark-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.25em;
+  color: rgba(154,125,82,0.5);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.dark-heading {
+  font-size: clamp(1.4rem, 6vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: rgba(245,242,236,0.9);
+  margin-bottom: 1.25rem;
+}
+
+.dark-body {
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+  color: rgba(240,240,240,0.5);
+}
+
+/* ── PRINCIPLES LIST ── */
+.principles {
+  padding: 3.5rem var(--px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+}
+
+.principle-item {
+  padding: 1.75rem 0;
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.principle-item:first-child { padding-top: 0; }
+.principle-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.principle-num {
+  font-family: var(--font-en);
+  font-size: 0.7rem;
+  font-weight: 300;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+  padding-top: 0.2rem;
+  min-width: 28px;
+}
+
+.principle-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--black);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.principle-body {
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0.02em;
+  color: var(--gray-mid);
+}
+
+/* ── THINKERS ROW ── */
+.thinkers {
+  padding: 3.5rem var(--px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+}
+
+.thinker-item {
+  padding: 1.75rem 0;
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+}
+
+.thinker-item:first-child { padding-top: 0; }
+.thinker-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.thinker-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.01em;
+}
+
+.thinker-period {
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.thinker-body {
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0.02em;
+  color: var(--gray-mid);
+}
+
+/* ── LINEAGE ── */
+.lineage {
+  padding: 3rem var(--px);
+  background: #f2efe9;
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+  row-gap: 0.5rem;
+}
+
+.lineage-item {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--gray-dark);
+  white-space: nowrap;
+}
+
+.lineage-arrow {
+  font-size: 0.7rem;
+  color: var(--gold);
+  margin: 0 0.6rem;
+}
+
+.lineage-item.current {
+  color: var(--black);
+  font-weight: 700;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 1px;
+}
+
+/* ── BTN ── */
+.btn-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+  border: 0.5px solid rgba(26,25,22,0.5);
+  background: transparent;
+  font-family: var(--font-ja);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--black);
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  margin-top: 2rem;
+}
+
+.btn-full::after { content: '→'; font-size: 0.9rem; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--off-white);
+  border-top: 0.5px solid rgba(154,125,82,0.12);
+  padding: 3rem var(--px) 2rem;
+}
+
+.footer-logo {
+  font-family: var(--font-en);
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  color: var(--gray-mid);
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.footer-links {
+  list-style: none;
+  margin-bottom: 2rem;
+}
+
+.footer-links li { border-bottom: 0.5px solid rgba(154,125,82,0.1); }
+
+.footer-links a {
+  display: block;
+  padding: 0.75rem 0;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.footer-copy {
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  color: var(--gray-lt);
+}
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+
+@media (min-width: 431px) {
+  body { max-width: 430px; margin: 0 auto; box-shadow: 0 0 0 0.5px var(--gray-lt); }
+  nav, .nav-drawer { max-width: 430px; left: 50%; transform: translateX(-50%); right: auto; width: 430px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="besson-mobile-v5.html" class="nav-logo">BESSON</a>
+  <div class="nav-hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <a href="besson-mobile-v5.html">Top</a>
+  <a href="besson-concept.html" class="active">Concept</a>
+  <a href="besson-lineup.html">Lineup</a>
+  <a href="besson-shop.html">Shop</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero reveal">
+  <p class="page-eyebrow">Concept</p>
+  <h1 class="page-title">なぜBESSONは<br>存在するのか。</h1>
+  <p class="page-lead">
+    幸せは、偶然に訪れるものだけでなく、<br>
+    意図して積み上げていけるものです。<br>
+    BESSONは、その積み上げに応える<br>ライフスタイルツールです。
+  </p>
+</div>
+
+<!-- FULL PHOTO -->
+<div class="photo-full reveal">
+  <div class="ph" style="background:#ece8e1;">
+    <div class="ph-lh"></div><div class="ph-lv"></div>
+    <p class="ph-label">Concept Photo<br>空間・佇まい</p>
+  </div>
+</div>
+
+<!-- CHAPTER 1: WHY -->
+<section class="section reveal">
+  <p class="section-num">Chapter 01</p>
+  <p class="section-label">Why</p>
+  <h2 class="section-heading">「幸せを設計する」<br>という思想</h2>
+  <p class="section-body">
+    ワインは「情報もかけあわせた」知的な嗜好品です。産地、ヴィンテージ、生産者の物語——それを知る人と知らない人では、同じグラスを前にして、まったく異なる体験をしています。
+  </p>
+  <p class="section-body">
+    人の幸福感は、セロトニン（安心・安定）、オキシトシン（つながり・愛情）、ドーパミン（達成・期待）という三つの要素が積み重なって生まれます。ワインセラーを部屋に置くという選択は、日常に豊かさを意図的に設計する行為です。
+  </p>
+  <p class="section-body">
+    冷蔵庫を買う感覚ではなく、「自分の暮らしをこういうものにしたい」という宣言に近い。BESSONはその宣言に応えるライフスタイルツールです。
+  </p>
+</section>
+
+<!-- QUOTE 1 -->
+<div class="quote-block reveal">
+  <p class="quote-text">
+    "完成を待たない。<br>動きながら、磨き続ける。"
+  </p>
+  <p class="quote-attr">— BESSON Brand Bible</p>
+</div>
+
+<!-- CHAPTER 2: WORLD -->
+<section class="section reveal">
+  <p class="section-num">Chapter 02</p>
+  <p class="section-label">World</p>
+  <h2 class="section-heading">目指す空間の感覚</h2>
+  <p class="section-body">
+    BESSONの製品が置かれるべき場所をイメージするとき、私たちはいくつかの空間を参照しています。アマンやベイコートのような高級ホテルのロビー。音が静かで、照明が落ち着いていて、素材に品がある。
+  </p>
+  <p class="section-body">
+    主張していないのに、明らかに上質だとわかる空間。何も言わなくても、置かれているものの品格が伝わってくる場所。BoConcept、Herman Miller、Vitraのような、知的で時代を超えるデザインの世界観です。
+  </p>
+  <p class="section-body">
+    見た人が「高い」と気づく前に「美しい」と感じる。そういうデザインを目指しています。
+  </p>
+</section>
+
+<!-- WIDE PHOTO -->
+<div class="photo-wide reveal">
+  <div class="ph" style="background:#f4f1eb;">
+    <div class="ph-lh"></div><div class="ph-lv"></div>
+    <p class="ph-label">World Photo<br>ホテル・空間イメージ</p>
+  </div>
+</div>
+
+<!-- DARK BAND: Bauhaus -->
+<div class="dark-band reveal">
+  <p class="dark-label">Design Philosophy</p>
+  <h2 class="dark-heading">
+    BESSONのデザイン思想の<br>発祥はバウハウスに置く。
+  </h2>
+  <p class="dark-body">
+    1919年、ドイツ・ワイマールに生まれたバウハウスが問いかけたのは一つのことでした——「美しいものと、使えるものは、なぜ別々に存在しているのか。」<br><br>
+    BESSONの「Make it simple」という言葉は、バウハウスの「Less is more」と同じ場所から来ています。
+  </p>
+</div>
+
+<!-- CHAPTER 3: DESIGN PHILOSOPHY -->
+<section class="section reveal">
+  <p class="section-num">Chapter 03</p>
+  <p class="section-label">Design Philosophy</p>
+  <h2 class="section-heading">バウハウスから継承する<br>三つの核心</h2>
+</section>
+
+<!-- PRINCIPLES -->
+<div class="principles reveal">
+  <div class="principle-item">
+    <span class="principle-num">01</span>
+    <div>
+      <p class="principle-title">装飾でごまかさないこと</p>
+      <p class="principle-body">素材と形態そのものの美しさを追求します。ガラスの透明感、木製棚の質感、スチールフレームの細さ——BESSONの美しさは、素材そのものから来なければならない。</p>
+    </div>
+  </div>
+  <div class="principle-item">
+    <span class="principle-num">02</span>
+    <div>
+      <p class="principle-title">人間の暮らしを豊かにする道具であること</p>
+      <p class="principle-body">芸術品でも装飾品でもなく、日常に置かれる道具です。毎日目に入るものが美しいとき、その人の生活の解像度は静かに上がっていきます。</p>
+    </div>
+  </div>
+  <div class="principle-item">
+    <span class="principle-num">03</span>
+    <div>
+      <p class="principle-title">引き算の美学</p>
+      <p class="principle-body">削ぎ落とした先に本物の美しさが現れます。デザインの判断で迷ったとき、足すのではなく引くことを先に考える。「これは本当に必要か」という問いを習慣にすること。</p>
+    </div>
+  </div>
+</div>
+
+<!-- CHAPTER 4: DIETER RAMS -->
+<section class="section reveal">
+  <p class="section-num">Chapter 04</p>
+  <p class="section-label">Judgment Standard</p>
+  <h2 class="section-heading">ディーター・ラムスの<br>10原則</h2>
+  <p class="section-body">
+    バウハウスの直系にあたるドイツのデザイナー、ディーター・ラムスは500以上の製品をデザインし、その哲学を10の原則にまとめました。AppleのジョナサンアイブがiPhoneをデザインするにあたって参照したことで知られています。
+  </p>
+  <p class="section-body">
+    彼の哲学を一言で表す言葉は「Less, but better.（より少なく、しかしより良く）」。この10原則はBESSONの製品開発・デザイン・コミュニケーションにおける判断基準として機能します。
+  </p>
+</section>
+
+<!-- QUOTE 2 -->
+<div class="quote-block reveal">
+  <p class="quote-text">"Less, but better."</p>
+  <p class="quote-attr">— Dieter Rams</p>
+</div>
+
+<!-- CHAPTER 5: THINKERS -->
+<section class="section reveal">
+  <p class="section-num">Chapter 05</p>
+  <p class="section-label">Related Thoughts</p>
+  <h2 class="section-heading">同じ問いに辿り着いた<br>思想たち</h2>
+  <p class="section-body">
+    バウハウスだけでなく、世界にはいくつかの思想が同じ問いに辿り着いています。BESSONはその系譜を意識しながら、現代の暮らしに応えます。
+  </p>
+</section>
+
+<div class="thinkers reveal">
+  <div class="thinker-item">
+    <p class="thinker-name">バウハウス</p>
+    <p class="thinker-period">Germany · 1919</p>
+    <p class="thinker-body">「美しいものと、使えるものはなぜ別々に存在するのか」——機能と美の統合、引き算の哲学、人間の暮らしへの貢献。BESSONの思想と最も深く一致する源泉です。</p>
+  </div>
+  <div class="thinker-item">
+    <p class="thinker-name">スカンジナビアデザイン</p>
+    <p class="thinker-period">Nordic · 1950s</p>
+    <p class="thinker-body">バウハウスの機能主義を継承しながら、人間の温もりと自然素材の美しさを加えた思想。BESSONが「冷たく完璧な家電」にならないための第二の柱です。</p>
+  </div>
+  <div class="thinker-item">
+    <p class="thinker-name">民藝運動</p>
+    <p class="thinker-period">Japan · 1920s</p>
+    <p class="thinker-body">柳宗悦が提唱した「用の美」。日常の道具の中に宿る美しさを見出した思想。「なくても死なないけど、あると暮らしが豊かになるもの」というBESSONの思想と深く響き合います。</p>
+  </div>
+</div>
+
+<!-- LINEAGE -->
+<div class="lineage reveal">
+  <span class="lineage-item">バウハウス</span>
+  <span class="lineage-arrow">→</span>
+  <span class="lineage-item">ディーター・ラムス</span>
+  <span class="lineage-arrow">→</span>
+  <span class="lineage-item">BoConcept / Apple</span>
+  <span class="lineage-arrow">→</span>
+  <span class="lineage-item current">BESSON</span>
+</div>
+
+<!-- CHAPTER 6: WHO -->
+<section class="section reveal">
+  <p class="section-num">Chapter 06</p>
+  <p class="section-label">Who</p>
+  <h2 class="section-heading">誰のための<br>ブランドか。</h2>
+  <p class="section-body">
+    仕事はできます。でも「忙しいだけの毎日でいいのか」と、どこかで感じている30〜50代の方々です。
+  </p>
+  <p class="section-body">
+    収入はある。でも何かが足りない感覚がある。その「何か」は効率や機能ではなく、暮らしの意味や美しさだと気づき始めた人。日常に意図的に豊かさを置くという選択ができる人。
+  </p>
+  <p class="section-body">
+    ワインセラーを買う行為が、「自分の暮らしをこういうものにしたい」という宣言になる人。そういう方たちのために、BESSONは存在しています。
+  </p>
+</section>
+
+<!-- QUOTE 3: Rolex -->
+<div class="quote-block reveal">
+  <p class="quote-text">
+    "機能は比較され、消費されます。<br>意味は積み上がり、資産になります。"
+  </p>
+  <p class="quote-attr">— BESSON Brand Bible</p>
+</div>
+
+<!-- CTA TO LINEUP -->
+<section class="section reveal" style="border-bottom:none;">
+  <p class="section-label">Next</p>
+  <h2 class="section-heading">製品を見る</h2>
+  <p class="section-body">
+    思想は、製品に宿ります。BESSONのワインセラーラインナップをご覧ください。
+  </p>
+  <a href="#" class="btn-full">Lineup を見る</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">BESSON</span>
+    <ul class="footer-links">
+    <li><a href="#">プライバシーポリシー</a></li>
+    <li><a href="besson-tokusho.html">特定商取引法に基づく表記</a></li>
+    <li><a href="besson-shop.html">お問い合わせ</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 BESSON</p>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const hbg = document.getElementById('hamburger');
+  const drawer = document.getElementById('navDrawer');
+  hbg.addEventListener('click', () => {
+    hbg.classList.toggle('open');
+    drawer.classList.toggle('open');
+  });
+</script>
+</body>
+</html>

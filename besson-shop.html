@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BESSON — Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white:     #ffffff;
+  --off-white: #f9f8f6;
+  --cream:     #f2efe9;
+  --stone:     #e8e3db;
+  --gold:      #9a7d52;
+  --gold-mid:  #b89a6a;
+  --black:     #1a1916;
+  --gray-dark: #3a3835;
+  --gray-mid:  #8a8680;
+  --font-en:   'Cormorant Garamond', Georgia, serif;
+  --font-ja:   'Noto Sans JP', 'Hiragino Sans', sans-serif;
+  --nav-h:     52px;
+  --px:        1.25rem;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--off-white);
+  color: var(--black);
+  font-family: var(--font-ja);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(249,248,246,0.97);
+  backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--px);
+  height: var(--nav-h);
+}
+
+.nav-logo {
+  font-family: var(--font-en);
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  color: var(--black);
+  text-decoration: none;
+}
+
+.nav-hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 20px; height: 0.5px;
+  background: var(--black);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav-hamburger.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+.nav-drawer {
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0;
+  background: rgba(249,248,246,0.99);
+  z-index: 199;
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+}
+
+.nav-drawer.open { max-height: 300px; }
+
+.nav-drawer a {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 1rem var(--px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.08);
+}
+
+.nav-drawer a:last-child { border-bottom: none; }
+/* ── NAV ACTIVE ── */
+.nav-drawer a.active {
+  color: var(--black);
+  font-weight: 500;
+}
+
+
+/* ── PAGE HERO ── */
+.page-hero {
+  margin-top: var(--nav-h);
+  padding: 3.5rem var(--px) 3rem;
+  border-bottom: 0.5px solid rgba(154,125,82,0.15);
+}
+
+.eyebrow {
+  font-size: 0.52rem;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.eyebrow::before {
+  content: '';
+  display: block;
+  width: 16px; height: 0.5px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+.page-title {
+  font-size: clamp(1.8rem, 8vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin-bottom: 1rem;
+}
+
+.page-lead {
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+  color: var(--gray-mid);
+}
+
+
+/* ── AMAZON BAND ── */
+.amazon-band {
+  background: var(--cream);
+  padding: 1.5rem var(--px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.amazon-text {
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--gray-dark);
+  letter-spacing: 0.02em;
+}
+
+.amazon-text strong {
+  font-weight: 700;
+  color: var(--black);
+}
+
+.btn-amazon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.1rem;
+  background: #FF9900;
+  border: none;
+  font-family: var(--font-ja);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--black);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* ── CATEGORY ── */
+.cat-head {
+  padding: 2.5rem var(--px) 0;
+}
+
+.cat-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.cat-label::before {
+  content: '';
+  display: block;
+  width: 12px; height: 0.5px;
+  background: var(--gold);
+}
+
+.cat-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  padding: 0 var(--px);
+  margin-top: 0.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.cat-note {
+  font-size: 0.68rem;
+  color: var(--gray-mid);
+  padding: 0 var(--px) 1.25rem;
+  letter-spacing: 0.02em;
+  line-height: 1.8;
+}
+
+/* ── SHOP CARD ── */
+.shop-card {
+  border-top: 0.5px solid rgba(154,125,82,0.12);
+  padding: 1.25rem var(--px);
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.shop-card-img {
+  aspect-ratio: 2/3;
+  position: relative;
+  overflow: hidden;
+  background: var(--cream);
+}
+
+.shop-card-img .ph-lh { position:absolute; top:50%; left:0; right:0; height:0.5px; background:rgba(154,125,82,0.15); }
+.shop-card-img .ph-lv { position:absolute; left:50%; top:0; bottom:0; width:0.5px; background:rgba(154,125,82,0.15); }
+.shop-card-img-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.45rem;
+  letter-spacing: 0.15em;
+  color: rgba(154,125,82,0.4);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.shop-card-left { }
+
+.shop-model {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  margin-bottom: 0.2rem;
+}
+
+.shop-sub {
+  font-size: 0.62rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.6rem;
+}
+
+.shop-price {
+  font-family: var(--font-en);
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--black);
+  margin-bottom: 0.15rem;
+}
+
+.shop-price-tax {
+  font-size: 0.55rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.05em;
+}
+
+.shop-card-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+/* Shopify Buy Button placeholder */
+.btn-detail {
+  display: block;
+  width: 120px;
+  padding: 0.7rem 0;
+  background: var(--black);
+  color: var(--off-white);
+  font-family: var(--font-ja);
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-amazon-sm {
+  width: 120px;
+  padding: 0.65rem 0;
+  background: #FF9900;
+  border: none;
+  font-family: var(--font-ja);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--black);
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  display: block;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height: 0.5px;
+  background: rgba(154,125,82,0.15);
+  margin: 0;
+}
+
+/* ── HOW TO BUY ── */
+.how-section {
+  padding: 3rem var(--px);
+  border-top: 0.5px solid rgba(154,125,82,0.15);
+  background: var(--cream);
+}
+
+.how-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  margin-bottom: 2rem;
+}
+
+.how-step {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.75rem;
+}
+
+.how-step:last-child { margin-bottom: 0; }
+
+.how-num {
+  font-family: var(--font-en);
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--gold);
+  flex-shrink: 0;
+  width: 24px;
+  line-height: 1.2;
+}
+
+.how-content { }
+
+.how-step-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.01em;
+}
+
+.how-step-body {
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 2;
+  letter-spacing: 0.02em;
+  color: var(--gray-mid);
+}
+
+/* ── GUARANTEE ── */
+.guarantee-section {
+  padding: 3rem var(--px);
+  border-top: 0.5px solid rgba(154,125,82,0.15);
+}
+
+.guarantee-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  margin-bottom: 1.5rem;
+}
+
+.guarantee-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.1rem 0;
+  border-bottom: 0.5px solid rgba(154,125,82,0.1);
+}
+
+.guarantee-item:last-child { border-bottom: none; }
+
+.guarantee-icon {
+  font-family: var(--font-en);
+  font-size: 0.65rem;
+  font-weight: 300;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+  width: 20px;
+  padding-top: 0.1rem;
+}
+
+.guarantee-text {
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+  color: var(--gray-dark);
+}
+
+.guarantee-text strong {
+  font-weight: 700;
+  color: var(--black);
+  display: block;
+  margin-bottom: 0.1rem;
+}
+
+/* ── FAQ ── */
+.faq-section {
+  padding: 3rem var(--px);
+  border-top: 0.5px solid rgba(154,125,82,0.15);
+  background: var(--cream);
+}
+
+.faq-title {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  margin-bottom: 1.5rem;
+}
+
+.faq-item {
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+  overflow: hidden;
+}
+
+.faq-q {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 1.1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  text-align: left;
+}
+
+.faq-q-text {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--black);
+  line-height: 1.6;
+}
+
+.faq-icon {
+  font-size: 1rem;
+  color: var(--gold);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  font-family: var(--font-en);
+  font-weight: 300;
+  line-height: 1;
+}
+
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.faq-item.open .faq-a { max-height: 200px; }
+
+.faq-a-text {
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 2.1;
+  letter-spacing: 0.02em;
+  color: var(--gray-mid);
+  padding-bottom: 1.25rem;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--cream);
+  border-top: 0.5px solid rgba(154,125,82,0.12);
+  padding: 3rem var(--px) 2rem;
+}
+
+.footer-logo {
+  font-family: var(--font-en);
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  color: var(--gray-mid);
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.footer-links { list-style: none; margin-bottom: 2rem; }
+.footer-links li { border-bottom: 0.5px solid rgba(154,125,82,0.1); }
+.footer-links a {
+  display: block;
+  padding: 0.75rem 0;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.footer-copy { font-size: 0.5rem; letter-spacing: 0.1em; color: var(--stone); }
+
+/* ── REVEAL ── */
+.reveal { opacity:0; transform:translateY(12px); transition:opacity .8s ease,transform .8s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+@media (min-width: 431px) {
+  body { max-width:430px; margin:0 auto; box-shadow:0 0 0 0.5px var(--stone); }
+  nav, .nav-drawer { max-width:430px; left:50%; transform:translateX(-50%); right:auto; width:430px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="besson-mobile-v5.html" class="nav-logo">BESSON</a>
+  <div class="nav-hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <a href="besson-mobile-v5.html">Top</a>
+  <a href="besson-concept.html">Concept</a>
+  <a href="besson-lineup.html">Lineup</a>
+  <a href="besson-shop.html" class="active">Shop</a>
+</div>
+
+<!-- HERO -->
+<div class="page-hero reveal">
+  <p class="eyebrow">Shop</p>
+  <h1 class="page-title">購入する</h1>
+  <p class="page-lead">
+    現在はAmazonにてご購入いただけます。<br>
+    自社オンラインストアは近日公開予定です。
+  </p>
+</div>
+
+<!-- AMAZON BAND -->
+<div class="amazon-band reveal">
+  <p class="amazon-text">
+    <strong>Amazonベストセラー獲得</strong><br>
+    全モデル、即日〜翌日配送対応
+  </p>
+  <a href="#" class="btn-amazon">Amazonで見る →</a>
+</div>
+
+
+<!-- ── FLAGSHIP ── -->
+<div class="cat-head reveal">
+  <p class="cat-label">Flagship</p>
+</div>
+<p class="cat-title reveal">大型コンプレッサー式</p>
+<p class="cat-note reveal">加温機能搭載・前後交互収納設計</p>
+
+<div class="shop-card reveal">
+  <div class="shop-card-img" style="background:#e0dcd4;">
+    <div class="ph-lh"></div>
+    <div class="ph-lv"></div>
+    <p class="shop-card-img-label">C177</p>
+  </div>
+  <div class="shop-card-left">
+    <p class="shop-model">C177</p>
+    <p class="shop-sub">177本 · 6×2 + 11×15段</p>
+    <p class="shop-price">¥288,000</p>
+    <p class="shop-price-tax">税込</p>
+  </div>
+  <div class="shop-card-right">
+    <a href="#" class="btn-detail">詳しく見る →</a>
+    <a href="#" class="btn-amazon-sm">Amazon</a>
+  </div>
+</div>
+
+<div class="shop-card reveal">
+  <div class="shop-card-img">
+    <div class="ph-lh"></div>
+    <div class="ph-lv"></div>
+    <p class="shop-card-img-label">C133</p>
+  </div>
+  <div class="shop-card-left">
+    <p class="shop-model">C133</p>
+    <p class="shop-sub">133本 · 6×2 + 11×11段</p>
+    <p class="shop-price">¥198,000</p>
+    <p class="shop-price-tax">税込</p>
+  </div>
+  <div class="shop-card-right">
+    <a href="#" class="btn-detail">詳しく見る →</a>
+    <a href="#" class="btn-amazon-sm">Amazon</a>
+  </div>
+</div>
+
+<div class="shop-card reveal">
+  <div class="shop-card-img" style="background:#ece8e0;">
+    <div class="ph-lh"></div>
+    <div class="ph-lv"></div>
+    <p class="shop-card-img-label">C80</p>
+  </div>
+  <div class="shop-card-left">
+    <p class="shop-model">C80</p>
+    <p class="shop-sub">80本 · 5×2 + 7×10段</p>
+    <p class="shop-price">¥148,000</p>
+    <p class="shop-price-tax">税込</p>
+  </div>
+  <div class="shop-card-right">
+    <a href="#" class="btn-detail">詳しく見る →</a>
+    <a href="#" class="btn-amazon-sm">Amazon</a>
+  </div>
+</div>
+
+<div class="shop-card reveal">
+  <div class="shop-card-img">
+    <div class="ph-lh"></div>
+    <div class="ph-lv"></div>
+    <p class="shop-card-img-label">C55</p>
+  </div>
+  <div class="shop-card-left">
+    <p class="shop-model">C55</p>
+    <p class="shop-sub">55本 · 5×11段</p>
+    <p class="shop-price">¥118,000</p>
+    <p class="shop-price-tax">税込</p>
+  </div>
+  <div class="shop-card-right">
+    <a href="#" class="btn-detail">詳しく見る →</a>
+    <a href="#" class="btn-amazon-sm">Amazon</a>
+  </div>
+</div>
+
+<!-- ── TOWER ── -->
+<div class="cat-head reveal">
+  <p class="cat-label">Tower</p>
+</div>
+<p class="cat-title reveal">タワー型</p>
+<p class="cat-note reveal">スリム縦長・省スペース設計</p>
+
+<div class="shop-card reveal">
+  <div class="shop-card-img" style="background:#ece8e0;">
+    <div class="ph-lh"></div>
+    <div class="ph-lv"></div>
+    <p class="shop-card-img-label">C36</p>
+  </div>
+  <div class="shop-card-left">
+    <p class="shop-model">C36</p>
+    <p class="shop-sub">36本 · 4×9段</p>
+    <p class="shop-price">¥88,800</p>
+    <p class="shop-price-tax">税込</p>
+  </div>
+  <div class="shop-card-right">
+    <a href="#" class="btn-detail">詳しく見る →</a>
+    <a href="#" class="btn-amazon-sm">Amazon</a>
+  </div>
+</div>
+
+<div class="shop-card reveal">
+  <div class="shop-card-img">
+    <div class="ph-lh"></div>
+    <div class="ph-lv"></div>
+    <p class="shop-card-img-label">C27</p>
+  </div>
+  <div class="shop-card-left">
+    <p class="shop-model">C27</p>
+    <p class="shop-sub">27本 · 3×9段</p>
+    <p class="shop-price">¥70,800</p>
+    <p class="shop-price-tax">税込</p>
+  </div>
+  <div class="shop-card-right">
+    <a href="#" class="btn-detail">詳しく見る →</a>
+    <a href="#" class="btn-amazon-sm">Amazon</a>
+  </div>
+</div>
+
+<div class="shop-card reveal">
+  <div class="shop-card-img" style="background:#ece8e0;">
+    <div class="ph-lh"></div>
+    <div class="ph-lv"></div>
+    <p class="shop-card-img-label">C18</p>
+  </div>
+  <div class="shop-card-left">
+    <p class="shop-model">C18</p>
+    <p class="shop-sub">18本 · 2×9段</p>
+    <p class="shop-price">¥44,800</p>
+    <p class="shop-price-tax">税込</p>
+  </div>
+  <div class="shop-card-right">
+    <a href="#" class="btn-detail">詳しく見る →</a>
+    <a href="#" class="btn-amazon-sm">Amazon</a>
+  </div>
+</div>
+
+<div class="shop-card reveal">
+  <div class="shop-card-img">
+    <div class="ph-lh"></div>
+    <div class="ph-lv"></div>
+    <p class="shop-card-img-label">C12</p>
+  </div>
+  <div class="shop-card-left">
+    <p class="shop-model">C12</p>
+    <p class="shop-sub">12本 · 2×6段</p>
+    <p class="shop-price">¥36,800</p>
+    <p class="shop-price-tax">税込</p>
+  </div>
+  <div class="shop-card-right">
+    <a href="#" class="btn-detail">詳しく見る →</a>
+    <a href="#" class="btn-amazon-sm">Amazon</a>
+  </div>
+</div>
+
+<!-- ── ENTRY ── -->
+<div class="cat-head reveal">
+  <p class="cat-label">Entry</p>
+</div>
+<p class="cat-title reveal">エントリー</p>
+<p class="cat-note reveal">ステンレス棚・幅広設計</p>
+
+<div class="shop-card reveal">
+  <div class="shop-card-img" style="background:#ece8e0;">
+    <div class="ph-lh"></div>
+    <div class="ph-lv"></div>
+    <p class="shop-card-img-label">C28st</p>
+  </div>
+  <div class="shop-card-left">
+    <p class="shop-model">C28st</p>
+    <p class="shop-sub">28本 · 4×7段 · ステンレス棚</p>
+    <p class="shop-price">¥49,800〜</p>
+    <p class="shop-price-tax">税込</p>
+  </div>
+  <div class="shop-card-right">
+    <a href="#" class="btn-detail">詳しく見る →</a>
+    <a href="#" class="btn-amazon-sm">Amazon</a>
+  </div>
+</div>
+
+<div class="shop-card reveal">
+  <div class="shop-card-img">
+    <div class="ph-lh"></div>
+    <div class="ph-lv"></div>
+    <p class="shop-card-img-label">C18st</p>
+  </div>
+  <div class="shop-card-left">
+    <p class="shop-model">C18st</p>
+    <p class="shop-sub">18本 · 3×6段 · ステンレス棚</p>
+    <p class="shop-price">¥36,800〜</p>
+    <p class="shop-price-tax">税込</p>
+  </div>
+  <div class="shop-card-right">
+    <a href="#" class="btn-detail">詳しく見る →</a>
+    <a href="#" class="btn-amazon-sm">Amazon</a>
+  </div>
+</div>
+
+<!-- ── SLIM ── -->
+<div class="cat-head reveal">
+  <p class="cat-label">Slim</p>
+</div>
+<p class="cat-title reveal">スリム</p>
+<p class="cat-note reveal">幅最小・奥行き活用の極細設計</p>
+
+<div class="shop-card reveal">
+  <div class="shop-card-img" style="background:#dedad2;">
+    <div class="ph-lh"></div>
+    <div class="ph-lv"></div>
+    <p class="shop-card-img-label">C7</p>
+  </div>
+  <div class="shop-card-left">
+    <p class="shop-model">C7</p>
+    <p class="shop-sub">7本 · 1×7段</p>
+    <p class="shop-price">¥39,800</p>
+    <p class="shop-price-tax">税込</p>
+  </div>
+  <div class="shop-card-right">
+    <a href="#" class="btn-detail">詳しく見る →</a>
+    <a href="#" class="btn-amazon-sm">Amazon</a>
+  </div>
+</div>
+
+<!-- HOW TO BUY -->
+<div class="how-section reveal">
+  <h2 class="how-title">購入の流れ</h2>
+  <div class="how-step">
+    <p class="how-num">1</p>
+    <div class="how-content">
+      <p class="how-step-title">モデルを選ぶ</p>
+      <p class="how-step-body">収納本数・設置スペース・ご予算に合わせてモデルをお選びください。迷ったらLineupページの比較をご参考に。</p>
+    </div>
+  </div>
+  <div class="how-step">
+    <p class="how-num">2</p>
+    <div class="how-content">
+      <p class="how-step-title">購入する</p>
+      <p class="how-step-body">現在はAmazonにてご購入いただけます。自社オンラインストアは近日公開予定です。</p>
+    </div>
+  </div>
+  <div class="how-step">
+    <p class="how-num">3</p>
+    <div class="how-content">
+      <p class="how-step-title">お届け・設置</p>
+      <p class="how-step-body">ご注文後、最短翌日にお届けします。大型モデルは玄関口までのお届けとなります。</p>
+    </div>
+  </div>
+  <div class="how-step">
+    <p class="how-num">4</p>
+    <div class="how-content">
+      <p class="how-step-title">安心の保証</p>
+      <p class="how-step-body">全モデルに保証が付属します。万が一の際はサポートまでご連絡ください。</p>
+    </div>
+  </div>
+</div>
+
+<!-- GUARANTEE -->
+<div class="guarantee-section reveal">
+  <h2 class="guarantee-title">BESSONの保証</h2>
+  <div class="guarantee-item">
+    <p class="guarantee-icon">—</p>
+    <p class="guarantee-text">
+      <strong>保証期間</strong>
+      全モデル保証付き。詳細は各商品ページをご確認ください。
+    </p>
+  </div>
+  <div class="guarantee-item">
+    <p class="guarantee-icon">—</p>
+    <p class="guarantee-text">
+      <strong>返品・交換</strong>
+      商品到着後、初期不良が確認された場合は交換対応いたします。
+    </p>
+  </div>
+  <div class="guarantee-item">
+    <p class="guarantee-icon">—</p>
+    <p class="guarantee-text">
+      <strong>サポート</strong>
+      設置・使用方法に関するご質問はお問い合わせフォームよりお気軽にどうぞ。
+    </p>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section reveal">
+  <h2 class="faq-title">よくある質問</h2>
+
+  <div class="faq-item">
+    <button class="faq-q">
+      <span class="faq-q-text">コンプレッサー式とペルチェ式の違いは？</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p class="faq-a-text">コンプレッサー式は冷蔵庫と同じ冷却方式で、冷却性能が高く、外気温の影響を受けにくいのが特徴です。BESSONの全ラインナップはコンプレッサー式を採用しています。</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q">
+      <span class="faq-q-text">設置に工事は必要ですか？</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p class="faq-a-text">工事は不要です。コンセントに挿すだけでご使用いただけます。ただし、放熱のために背面・側面に一定のスペースを確保してください。</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q">
+      <span class="faq-q-text">振動や音はどの程度ですか？</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p class="faq-a-text">コンプレッサー動作時に若干の振動・音が発生しますが、通常のご使用には問題ありません。寝室への設置は静音性の高いモデルをおすすめします。</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-q">
+      <span class="faq-q-text">領収書・インボイスの発行はできますか？</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a">
+      <p class="faq-a-text">Amazon経由でご購入の場合はAmazonの領収書をご利用ください。自社ストアでのご購入の場合は、注文確認メールが領収書としてご利用いただけます。</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span class="footer-logo">BESSON</span>
+    <ul class="footer-links">
+    <li><a href="#">プライバシーポリシー</a></li>
+    <li><a href="besson-tokusho.html">特定商取引法に基づく表記</a></li>
+    <li><a href="besson-shop.html">お問い合わせ</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 BESSON</p>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const hbg = document.getElementById('hamburger');
+  const drawer = document.getElementById('navDrawer');
+  hbg.addEventListener('click', () => {
+    hbg.classList.toggle('open');
+    drawer.classList.toggle('open');
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

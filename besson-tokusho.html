@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BESSON — 特定商取引法に基づく表記</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white:     #ffffff;
+  --off-white: #f9f8f6;
+  --cream:     #f2efe9;
+  --stone:     #e8e3db;
+  --gold:      #9a7d52;
+  --black:     #1a1916;
+  --gray-dark: #3a3835;
+  --gray-mid:  #8a8680;
+  --font-en:   'Cormorant Garamond', Georgia, serif;
+  --font-ja:   'Noto Sans JP', 'Hiragino Sans', sans-serif;
+  --nav-h:     52px;
+  --px:        1.25rem;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--off-white);
+  color: var(--black);
+  font-family: var(--font-ja);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(249,248,246,0.97);
+  backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--px);
+  height: var(--nav-h);
+}
+
+.nav-logo {
+  font-family: var(--font-en);
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  color: var(--black);
+  text-decoration: none;
+}
+
+.nav-hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 20px; height: 0.5px;
+  background: var(--black);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav-hamburger.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+.nav-drawer {
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0;
+  background: rgba(249,248,246,0.99);
+  z-index: 199;
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+}
+
+.nav-drawer.open { max-height: 300px; }
+
+.nav-drawer a {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 1rem var(--px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.08);
+}
+
+.nav-drawer a:last-child { border-bottom: none; }
+/* ── NAV ACTIVE ── */
+.nav-drawer a.active {
+  color: var(--black);
+  font-weight: 500;
+}
+
+
+/* ── PAGE ── */
+.page-hero {
+  margin-top: var(--nav-h);
+  padding: 3rem var(--px) 2rem;
+  border-bottom: 0.5px solid rgba(154,125,82,0.15);
+}
+
+.page-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  margin-bottom: 0.5rem;
+}
+
+.page-note {
+  font-size: 0.72rem;
+  color: var(--gray-mid);
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+}
+
+/* ── TABLE ── */
+.tokusho-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tokusho-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  border-bottom: 0.5px solid rgba(154,125,82,0.1);
+}
+
+.tokusho-row:last-child { border-bottom: none; }
+
+.tokusho-key {
+  padding: 1.1rem var(--px) 1.1rem var(--px);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--gray-dark);
+  letter-spacing: 0.03em;
+  line-height: 1.7;
+  border-right: 0.5px solid rgba(154,125,82,0.1);
+  background: var(--cream);
+}
+
+.tokusho-val {
+  padding: 1.1rem var(--px);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--black);
+  letter-spacing: 0.02em;
+  line-height: 1.9;
+}
+
+.tokusho-val a {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 0.5px solid rgba(154,125,82,0.3);
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--cream);
+  border-top: 0.5px solid rgba(154,125,82,0.12);
+  padding: 3rem var(--px) 2rem;
+}
+
+.footer-logo {
+  font-family: var(--font-en);
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  color: var(--gray-mid);
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.footer-links { list-style: none; margin-bottom: 2rem; }
+.footer-links li { border-bottom: 0.5px solid rgba(154,125,82,0.1); }
+.footer-links a {
+  display: block;
+  padding: 0.75rem 0;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.footer-copy { font-size: 0.5rem; letter-spacing: 0.1em; color: var(--stone); }
+
+@media (min-width: 431px) {
+  body { max-width:430px; margin:0 auto; box-shadow:0 0 0 0.5px var(--stone); }
+  nav, .nav-drawer { max-width:430px; left:50%; transform:translateX(-50%); right:auto; width:430px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="besson-mobile-v5.html" class="nav-logo">BESSON</a>
+  <div class="nav-hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <a href="besson-mobile-v5.html">Top</a>
+  <a href="besson-concept.html">Concept</a>
+  <a href="besson-lineup.html">Lineup</a>
+  <a href="besson-shop.html">Shop</a>
+</div>
+
+<div class="page-hero">
+  <h1 class="page-title">特定商取引法に基づく表記</h1>
+  <p class="page-note">特定商取引に関する法律に基づき、以下の通り表記します。</p>
+</div>
+
+<table class="tokusho-table">
+  <div class="tokusho-row">
+    <div class="tokusho-key">販売業者</div>
+    <div class="tokusho-val">リンテクト・ジャパン株式会社</div>
+  </div>
+  <div class="tokusho-row">
+    <div class="tokusho-key">代表責任者</div>
+    <div class="tokusho-val">前田 啓佑</div>
+  </div>
+  <div class="tokusho-row">
+    <div class="tokusho-key">所在地</div>
+    <div class="tokusho-val">〒350-1118<br>埼玉県川越市豊田本4丁目2−6</div>
+  </div>
+  <div class="tokusho-row">
+    <div class="tokusho-key">電話番号</div>
+    <div class="tokusho-val">050-1793-8059<br><span style="font-size:0.65rem;color:var(--gray-mid);">受付時間：平日 10:00〜16:30<br>（土日・祝日・GW・夏季休暇・年末年始を除く）</span></div>
+  </div>
+  <div class="tokusho-row">
+    <div class="tokusho-key">メール<br>アドレス</div>
+    <div class="tokusho-val"><a href="mailto:info@besson.jp">info@besson.jp</a></div>
+  </div>
+  <div class="tokusho-row">
+    <div class="tokusho-key">販売URL</div>
+    <div class="tokusho-val"><a href="https://besson.jp">https://besson.jp</a>（取得予定）</div>
+  </div>
+  <div class="tokusho-row">
+    <div class="tokusho-key">販売価格</div>
+    <div class="tokusho-val">各商品ページに記載の価格（税込）</div>
+  </div>
+  <div class="tokusho-row">
+    <div class="tokusho-key">送料</div>
+    <div class="tokusho-val">自社オンラインストアでのご購入：送料無料<br>Amazon経由でのご購入：Amazonの送料規定に準じます</div>
+  </div>
+  <div class="tokusho-row">
+    <div class="tokusho-key">お支払い<br>方法</div>
+    <div class="tokusho-val">クレジットカード、各種決済サービス<br><span style="font-size:0.65rem;color:var(--gray-mid);">（Amazon経由の場合はAmazonの決済方法に準じます）</span></div>
+  </div>
+  <div class="tokusho-row">
+    <div class="tokusho-key">お支払い<br>時期</div>
+    <div class="tokusho-val">ご注文時にお支払いが確定します。<br>クレジットカードの引き落とし時期は各カード会社の規定に準じます。</div>
+  </div>
+  <div class="tokusho-row">
+    <div class="tokusho-key">商品の<br>お届け</div>
+    <div class="tokusho-val">ご注文確認後、通常3〜7営業日以内に発送します。<br>大型モデル（C55以上）は玄関口までのお届けとなります。</div>
+  </div>
+  <div class="tokusho-row">
+    <div class="tokusho-key">返品・<br>交換</div>
+    <div class="tokusho-val">
+      <strong style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.5rem;">初期不良の場合</strong>
+      商品到着後、初期不良が確認された場合は交換対応いたします。お問い合わせフォームよりご連絡ください。<br><br>
+      <strong style="font-size:0.75rem;font-weight:700;display:block;margin-bottom:0.5rem;">お客様都合による返品</strong>
+      未開封・未使用品に限り、商品到着後8日以内にご連絡いただいた場合のみ対応いたします。返送時の送料はお客様のご負担となります。<br><br>
+      <span style="font-size:0.7rem;color:var(--gray-mid);">※使用済み商品・開封済み商品のお客様都合による返品はお受けできません。</span>
+    </div>
+  </div>
+  <div class="tokusho-row">
+    <div class="tokusho-key">保証</div>
+    <div class="tokusho-val">
+      全モデルに製品保証が付属します。<br>保証期間・内容は各商品ページをご確認ください。<br><br>
+      <span style="font-size:0.7rem;color:var(--gray-mid);">※落下・水濡れ・誤使用などお客様起因の故障は保証対象外となります。</span>
+    </div>
+  </div>
+  <div class="tokusho-row">
+    <div class="tokusho-key">特記事項</div>
+    <div class="tokusho-val">商品の色・外観は画面の設定により実物と異なって見える場合があります。</div>
+  </div>
+</table>
+
+<footer>
+  <span class="footer-logo">BESSON</span>
+    <ul class="footer-links">
+    <li><a href="#">プライバシーポリシー</a></li>
+    <li><a href="besson-tokusho.html">特定商取引法に基づく表記</a></li>
+    <li><a href="besson-shop.html">お問い合わせ</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 BESSON</p>
+</footer>
+
+<script>
+  const hbg = document.getElementById('hamburger');
+  const drawer = document.getElementById('navDrawer');
+  hbg.addEventListener('click', () => {
+    hbg.classList.toggle('open');
+    drawer.classList.toggle('open');
+  });
+</script>
+</body>
+</html>

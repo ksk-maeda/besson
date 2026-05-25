@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BESSON — Lineup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white:     #ffffff;
+  --off-white: #f9f8f6;
+  --cream:     #f2efe9;
+  --stone:     #e8e3db;
+  --gold:      #9a7d52;
+  --gold-mid:  #b89a6a;
+  --black:     #1a1916;
+  --gray-dark: #3a3835;
+  --gray-mid:  #8a8680;
+  --gray-lt:   rgba(154,125,82,0.15);
+  --font-en:   'Cormorant Garamond', Georgia, serif;
+  --font-ja:   'Noto Sans JP', 'Hiragino Sans', sans-serif;
+  --nav-h:     52px;
+  --px:        1.25rem;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--off-white);
+  color: var(--black);
+  font-family: var(--font-ja);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(249,248,246,0.97);
+  backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--px);
+  height: var(--nav-h);
+}
+
+.nav-logo {
+  font-family: var(--font-en);
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  color: var(--black);
+  text-decoration: none;
+}
+
+.nav-hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 20px; height: 0.5px;
+  background: var(--black);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav-hamburger.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+.nav-drawer {
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0;
+  background: rgba(249,248,246,0.99);
+  z-index: 199;
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+}
+
+.nav-drawer.open { max-height: 300px; }
+
+.nav-drawer a {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 1rem var(--px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.08);
+  transition: color 0.2s;
+}
+
+.nav-drawer a:last-child { border-bottom: none; }
+/* ── NAV ACTIVE ── */
+.nav-drawer a.active {
+  color: var(--black);
+  font-weight: 500;
+}
+
+
+/* ── PAGE HERO ── */
+.page-hero {
+  margin-top: var(--nav-h);
+  background: #18150f;
+  padding: 4rem var(--px) 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent 5%, rgba(212,185,138,0.5) 50%, transparent 95%);
+}
+
+.hero-eyebrow {
+  font-size: 0.52rem;
+  letter-spacing: 0.28em;
+  color: rgba(154,125,82,0.6);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 16px; height: 0.5px;
+  background: rgba(154,125,82,0.6);
+  flex-shrink: 0;
+}
+
+.hero-title {
+  font-family: var(--font-ja);
+  font-size: clamp(2rem, 9vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  color: rgba(245,242,236,0.95);
+  margin-bottom: 1.5rem;
+}
+
+.hero-title span {
+  color: var(--gold-mid);
+}
+
+.hero-lead {
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+  color: rgba(240,240,240,0.5);
+}
+
+/* ── PHOTO PLACEHOLDER ── */
+.ph {
+  width: 100%; height: 100%;
+  background: var(--cream);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ph::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border: 0.5px solid rgba(154,125,82,0.25);
+}
+
+.ph-lh { position: absolute; top:50%; left:0; right:0; height:0.5px; background:rgba(154,125,82,0.15); }
+.ph-lv { position: absolute; left:50%; top:0; bottom:0; width:0.5px; background:rgba(154,125,82,0.15); }
+
+.ph-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  color: rgba(154,125,82,0.45);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 2.2;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── CATEGORY HEADER ── */
+.cat-header {
+  padding: 2.5rem var(--px) 0;
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.cat-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cat-label::before {
+  content: '';
+  display: block;
+  width: 12px; height: 0.5px;
+  background: var(--gold);
+}
+
+.cat-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  padding: 0 var(--px);
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.cat-desc {
+  font-size: 0.75rem;
+  color: var(--gray-mid);
+  line-height: 1.9;
+  padding: 0 var(--px) 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+/* ── FLAGSHIP CARD ── */
+.flagship {
+  margin: 0;
+  border-top: 0.5px solid rgba(154,125,82,0.15);
+}
+
+.flagship-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  position: relative;
+  overflow: hidden;
+}
+
+.flagship-photo .ph { background: var(--stone); }
+
+.flagship-badge {
+  position: absolute;
+  top: 1.25rem; left: var(--px);
+  font-size: 0.48rem;
+  letter-spacing: 0.22em;
+  color: var(--gold-mid);
+  text-transform: uppercase;
+  background: rgba(24,21,15,0.75);
+  padding: 4px 10px;
+  z-index: 2;
+}
+
+.flagship-info {
+  padding: 1.75rem var(--px) 2rem;
+  border-bottom: 0.5px solid rgba(154,125,82,0.15);
+}
+
+.product-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  margin-bottom: 0.25rem;
+}
+
+.product-sub {
+  font-size: 0.72rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.05em;
+  margin-bottom: 1.25rem;
+}
+
+.product-spec-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.spec-item { }
+
+.spec-num {
+  font-family: var(--font-en);
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--black);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.spec-unit {
+  font-size: 0.6rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.1em;
+  margin-top: 0.2rem;
+}
+
+.product-desc {
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+  color: var(--gray-mid);
+  margin-bottom: 1.5rem;
+}
+
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.price {
+  font-family: var(--font-en);
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--black);
+}
+
+.price-tax {
+  font-size: 0.6rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.08em;
+}
+
+.btn-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+  border: 0.5px solid rgba(26,25,22,0.5);
+  background: transparent;
+  font-family: var(--font-ja);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--black);
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-full::after { content: '→'; font-size: 0.9rem; }
+
+/* ── STANDARD CARD ── */
+.product-card {
+  border-top: 0.5px solid rgba(154,125,82,0.15);
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 0;
+}
+
+.product-card-photo {
+  aspect-ratio: 2/3;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card-photo .ph { background: var(--cream); }
+
+.product-card-info {
+  padding: 1.25rem var(--px) 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-card-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  margin-bottom: 0.2rem;
+}
+
+.product-card-sub {
+  font-size: 0.65rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.product-card-spec {
+  font-family: var(--font-en);
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--black);
+  margin-bottom: 0.15rem;
+}
+
+.product-card-spec-label {
+  font-size: 0.55rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+}
+
+.product-card-price {
+  font-family: var(--font-en);
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--black);
+  margin-bottom: 0.15rem;
+}
+
+.product-card-price-label {
+  font-size: 0.55rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.btn-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 0;
+  border: 0.5px solid rgba(26,25,22,0.4);
+  background: transparent;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--black);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-small::after { content: '→'; }
+
+/* ── SECTION DIVIDER ── */
+.section-divider {
+  padding: 3rem var(--px) 0;
+  border-top: 0.5px solid rgba(154,125,82,0.15);
+}
+
+/* ── SPECIAL MODEL ── */
+.special-band {
+  background: var(--cream);
+  padding: 2rem var(--px);
+  border-top: 0.5px solid rgba(154,125,82,0.15);
+  border-bottom: 0.5px solid rgba(154,125,82,0.15);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.special-photo {
+  aspect-ratio: 1/2;
+  position: relative;
+  overflow: hidden;
+}
+
+.special-photo .ph { background: var(--stone); }
+
+.special-info { }
+
+.special-tag {
+  font-size: 0.48rem;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.special-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  margin-bottom: 0.25rem;
+}
+
+.special-sub {
+  font-size: 0.65rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.special-desc {
+  font-size: 0.72rem;
+  line-height: 2;
+  letter-spacing: 0.02em;
+  color: var(--gray-mid);
+  margin-bottom: 1.25rem;
+}
+
+.special-price {
+  font-family: var(--font-en);
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--black);
+  margin-bottom: 0.15rem;
+}
+
+.special-price-label {
+  font-size: 0.55rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+/* ── QUOTE ── */
+.quote-band {
+  padding: 3.5rem var(--px);
+  background: var(--cream);
+  text-align: center;
+  border-top: 0.5px solid rgba(154,125,82,0.15);
+}
+
+.quote-text {
+  font-family: var(--font-en);
+  font-size: clamp(1.2rem, 5.5vw, 1.6rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--black);
+  margin-bottom: 1rem;
+}
+
+.quote-attr {
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--cream);
+  border-top: 0.5px solid rgba(154,125,82,0.12);
+  padding: 3rem var(--px) 2rem;
+}
+
+.footer-logo {
+  font-family: var(--font-en);
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  color: var(--gray-mid);
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.footer-links { list-style: none; margin-bottom: 2rem; }
+.footer-links li { border-bottom: 0.5px solid rgba(154,125,82,0.1); }
+.footer-links a {
+  display: block;
+  padding: 0.75rem 0;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.footer-copy { font-size: 0.5rem; letter-spacing: 0.1em; color: var(--stone); }
+
+/* ── REVEAL ── */
+.reveal { opacity:0; transform:translateY(12px); transition:opacity .8s ease,transform .8s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-d1 { transition-delay:.1s; }
+.reveal-d2 { transition-delay:.2s; }
+
+@media (min-width: 431px) {
+  body { max-width:430px; margin:0 auto; box-shadow:0 0 0 0.5px var(--stone); }
+  nav, .nav-drawer { max-width:430px; left:50%; transform:translateX(-50%); right:auto; width:430px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="besson-mobile-v5.html" class="nav-logo">BESSON</a>
+  <div class="nav-hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <a href="besson-mobile-v5.html">Top</a>
+  <a href="besson-concept.html">Concept</a>
+  <a href="besson-lineup.html" class="active">Lineup</a>
+  <a href="besson-shop.html">Shop</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero reveal">
+  <p class="hero-eyebrow">Lineup</p>
+  <h1 class="hero-title"><span>177本。</span><br>これが、<br>BESSONの本気だ。</h1>
+  <p class="hero-lead">
+    ホテルのセラーに置かれる本格仕様が、<br>
+    あなたのリビングにも届く。<br>
+    7本から177本まで、13のラインナップ。
+  </p>
+</div>
+
+<!-- ═══ FLAGSHIP: Large Compressor ═══ -->
+<div class="cat-header reveal">
+  <p class="cat-label">Flagship</p>
+</div>
+<p class="cat-title reveal">大型コンプレッサー式</p>
+<p class="cat-desc reveal">前後交互収納設計で幅を30%以上スリム化。本格ホテルセラーの収納力を、家庭のスペースに。</p>
+
+<!-- C177 -->
+<div class="flagship reveal">
+  <div class="flagship-photo">
+    <div class="ph" style="background:#e0dcd4;">
+      <div class="ph-lh"></div><div class="ph-lv"></div>
+      <p class="ph-label">C177 Photo</p>
+    </div>
+    <span class="flagship-badge">Flagship Model</span>
+  </div>
+  <div class="flagship-info">
+    <p class="product-name">C177</p>
+    <p class="product-sub">コンプレッサー式 · 6×2 + 11×15段</p>
+    <div class="product-spec-row">
+      <div class="spec-item">
+        <p class="spec-num">177</p>
+        <p class="spec-unit">本収納</p>
+      </div>
+      <div class="spec-item">
+        <p class="spec-num">17</p>
+        <p class="spec-unit">段</p>
+      </div>
+    </div>
+    <p class="product-desc">
+      BESSONの最大容量モデル。前後交互収納により、177本を縦長のフォルムに凝縮。リビングの一角を、本格ワインセラーへと変える。
+    </p>
+    <div class="price-row">
+      <p class="price">¥288,000</p>
+      <p class="price-tax">税込</p>
+    </div>
+    <a href="#" class="btn-full">詳しく見る</a>
+  </div>
+</div>
+
+<!-- C133 -->
+<div class="product-card reveal">
+  <div class="product-card-photo">
+    <div class="ph"><div class="ph-lh"></div><div class="ph-lv"></div><p class="ph-label">C133</p></div>
+  </div>
+  <div class="product-card-info">
+    <div>
+      <p class="product-card-name">C133</p>
+      <p class="product-card-sub">6×2 + 11×11段</p>
+      <p class="product-card-spec">133本</p>
+      <p class="product-card-spec-label">収納本数</p>
+      <p class="product-card-price">¥198,000</p>
+      <p class="product-card-price-label">税込</p>
+    </div>
+    <a href="#" class="btn-small">詳しく見る</a>
+  </div>
+</div>
+
+<!-- C80 -->
+<div class="product-card reveal">
+  <div class="product-card-photo">
+    <div class="ph" style="background:#ece8e0;"><div class="ph-lh"></div><div class="ph-lv"></div><p class="ph-label">C80</p></div>
+  </div>
+  <div class="product-card-info">
+    <div>
+      <p class="product-card-name">C80</p>
+      <p class="product-card-sub">5×2 + 7×10段</p>
+      <p class="product-card-spec">80本</p>
+      <p class="product-card-spec-label">収納本数</p>
+      <p class="product-card-price">¥148,000</p>
+      <p class="product-card-price-label">税込</p>
+    </div>
+    <a href="#" class="btn-small">詳しく見る</a>
+  </div>
+</div>
+
+<!-- C55 -->
+<div class="product-card reveal">
+  <div class="product-card-photo">
+    <div class="ph"><div class="ph-lh"></div><div class="ph-lv"></div><p class="ph-label">C55</p></div>
+  </div>
+  <div class="product-card-info">
+    <div>
+      <p class="product-card-name">C55</p>
+      <p class="product-card-sub">5×11段</p>
+      <p class="product-card-spec">55本</p>
+      <p class="product-card-spec-label">収納本数</p>
+      <p class="product-card-price">¥118,000</p>
+      <p class="product-card-price-label">税込</p>
+    </div>
+    <a href="#" class="btn-small">詳しく見る</a>
+  </div>
+</div>
+
+<!-- QUOTE -->
+<div class="quote-band reveal">
+  <p class="quote-text">"ボトルの数だけ、<br>物語がある。"</p>
+  <p class="quote-attr">— BESSON</p>
+</div>
+
+<!-- ═══ STANDARD ═══ -->
+<div class="section-divider reveal">
+  <p class="cat-label" style="padding:0;">Tower</p>
+</div>
+<p class="cat-title reveal">タワー型</p>
+<p class="cat-desc reveal">スリムな縦長フォルムで、狭いスペースにも収まる。本数が増えるほど、空間は深くなる。</p>
+
+<!-- C36 -->
+<div class="product-card reveal">
+  <div class="product-card-photo">
+    <div class="ph" style="background:#ece8e0;"><div class="ph-lh"></div><div class="ph-lv"></div><p class="ph-label">C36</p></div>
+  </div>
+  <div class="product-card-info">
+    <div>
+      <p class="product-card-name">C36</p>
+      <p class="product-card-sub">4×9段</p>
+      <p class="product-card-spec">36本</p>
+      <p class="product-card-spec-label">収納本数</p>
+      <p class="product-card-price">¥88,800</p>
+      <p class="product-card-price-label">税込</p>
+    </div>
+    <a href="#" class="btn-small">詳しく見る</a>
+  </div>
+</div>
+
+<!-- C27 -->
+<div class="product-card reveal">
+  <div class="product-card-photo">
+    <div class="ph"><div class="ph-lh"></div><div class="ph-lv"></div><p class="ph-label">C27</p></div>
+  </div>
+  <div class="product-card-info">
+    <div>
+      <p class="product-card-name">C27</p>
+      <p class="product-card-sub">3×9段</p>
+      <p class="product-card-spec">27本</p>
+      <p class="product-card-spec-label">収納本数</p>
+      <p class="product-card-price">¥70,800</p>
+      <p class="product-card-price-label">税込</p>
+    </div>
+    <a href="#" class="btn-small">詳しく見る</a>
+  </div>
+</div>
+
+
+
+<!-- C18 -->
+<div class="product-card reveal">
+  <div class="product-card-photo">
+    <div class="ph" style="background:#ece8e0;"><div class="ph-lh"></div><div class="ph-lv"></div><p class="ph-label">C18</p></div>
+  </div>
+  <div class="product-card-info">
+    <div>
+      <p class="product-card-name">C18</p>
+      <p class="product-card-sub">2×9段</p>
+      <p class="product-card-spec">18本</p>
+      <p class="product-card-spec-label">収納本数</p>
+      <p class="product-card-price">¥44,800</p>
+      <p class="product-card-price-label">税込</p>
+    </div>
+    <a href="#" class="btn-small">詳しく見る</a>
+  </div>
+</div>
+
+<!-- C12 -->
+<div class="product-card reveal">
+  <div class="product-card-photo">
+    <div class="ph"><div class="ph-lh"></div><div class="ph-lv"></div><p class="ph-label">C12</p></div>
+  </div>
+  <div class="product-card-info">
+    <div>
+      <p class="product-card-name">C12</p>
+      <p class="product-card-sub">2×6段</p>
+      <p class="product-card-spec">12本</p>
+      <p class="product-card-spec-label">収納本数</p>
+      <p class="product-card-price">¥36,800</p>
+      <p class="product-card-price-label">税込</p>
+    </div>
+    <a href="#" class="btn-small">詳しく見る</a>
+  </div>
+</div>
+
+<!-- ═══ ENTRY ═══ -->
+<div class="section-divider reveal">
+  <p class="cat-label" style="padding:0;">Entry</p>
+</div>
+<p class="cat-title reveal">エントリー</p>
+<p class="cat-desc reveal">ワインセラーのある暮らしへの、最初の一歩。ステンレス棚の幅広設計で、様々なボトルに対応。</p>
+
+<!-- C28st -->
+<div class="product-card reveal">
+  <div class="product-card-photo">
+    <div class="ph" style="background:#ece8e0;"><div class="ph-lh"></div><div class="ph-lv"></div><p class="ph-label">C28st</p></div>
+  </div>
+  <div class="product-card-info">
+    <div>
+      <p class="product-card-name">C28st</p>
+      <p class="product-card-sub">4×7段 · ステンレス棚</p>
+      <p class="product-card-spec">28本</p>
+      <p class="product-card-spec-label">収納本数</p>
+      <p class="product-card-price">¥49,800〜</p>
+      <p class="product-card-price-label">税込</p>
+    </div>
+    <a href="#" class="btn-small">詳しく見る</a>
+  </div>
+</div>
+
+<!-- C18st -->
+<div class="product-card reveal">
+  <div class="product-card-photo">
+    <div class="ph"><div class="ph-lh"></div><div class="ph-lv"></div><p class="ph-label">C18st</p></div>
+  </div>
+  <div class="product-card-info">
+    <div>
+      <p class="product-card-name">C18st</p>
+      <p class="product-card-sub">3×6段 · ステンレス棚</p>
+      <p class="product-card-spec">18本</p>
+      <p class="product-card-spec-label">収納本数</p>
+      <p class="product-card-price">¥36,800〜</p>
+      <p class="product-card-price-label">税込</p>
+    </div>
+    <a href="#" class="btn-small">詳しく見る</a>
+  </div>
+</div>
+
+<!-- ═══ SPECIAL: C7 ═══ -->
+<div class="section-divider reveal" style="padding-bottom:1.5rem;">
+  <p class="cat-label" style="padding:0;">Slim</p>
+</div>
+
+<div class="special-band reveal">
+  <div class="special-photo">
+    <div class="ph" style="background:#dedad2;"><div class="ph-lh"></div><div class="ph-lv"></div><p class="ph-label">C7<br>Photo</p></div>
+  </div>
+  <div class="special-info">
+    <p class="special-tag">Slim Model</p>
+    <p class="special-name">C7</p>
+    <p class="special-sub">1×7段 · 極細ワイドフォルム</p>
+    <p class="special-desc">
+      ［キャッチコピー 調整中］<br>幅最小・奥行き活用の本格コンプレッサー式。
+    </p>
+    <p class="special-price">¥39,800</p>
+    <p class="special-price-label">税込</p>
+    <a href="#" class="btn-small">詳しく見る</a>
+  </div>
+</div>
+
+<!-- FOOTER CTA -->
+<div style="padding:3rem var(--px);border-top:0.5px solid rgba(154,125,82,0.15);" class="reveal">
+  <p style="font-size:0.52rem;letter-spacing:0.28em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:0.6rem;">
+    <span style="display:block;width:16px;height:0.5px;background:var(--gold);flex-shrink:0;"></span>Shop
+  </p>
+  <p style="font-size:1.1rem;font-weight:700;letter-spacing:-0.01em;color:var(--black);margin-bottom:0.75rem;line-height:1.5;">Amazonで購入する</p>
+  <p style="font-size:0.78rem;color:var(--gray-mid);line-height:2;letter-spacing:0.02em;margin-bottom:1.5rem;">全モデル、Amazonにてお買い求めいただけます。</p>
+  <a href="#" class="btn-full">Amazon で見る</a>
+</div>
+
+<footer>
+  <span class="footer-logo">BESSON</span>
+    <ul class="footer-links">
+    <li><a href="#">プライバシーポリシー</a></li>
+    <li><a href="besson-tokusho.html">特定商取引法に基づく表記</a></li>
+    <li><a href="besson-shop.html">お問い合わせ</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 BESSON</p>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const hbg = document.getElementById('hamburger');
+  const drawer = document.getElementById('navDrawer');
+  hbg.addEventListener('click', () => {
+    hbg.classList.toggle('open');
+    drawer.classList.toggle('open');
+  });
+</script>
+</body>
+</html>

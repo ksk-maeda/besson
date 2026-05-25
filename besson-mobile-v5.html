@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BESSON — 美しく並ぶ、静かな贅沢。</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white:     #ffffff;
+  --off-white: #f9f8f6;
+  --cream:     #f2efe9;
+  --stone:     #e8e3db;
+  --gold:      #9a7d52;
+  --gold-mid:  #b89a6a;
+  --black:     #1a1916;
+  --gray-dark: #3a3835;
+  --gray-mid:  #8a8680;
+  --gray-lt:   #b8b4ac;
+  --font-en:   'Cormorant Garamond', Georgia, serif;
+  --font-ja:   'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+  --nav-h:     52px;
+  --px:        1.25rem;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--off-white);
+  color: var(--black);
+  font-family: var(--font-ja);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── PHOTO PLACEHOLDER ── */
+.ph {
+  width: 100%; height: 100%;
+  background: var(--cream);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.ph-line-h {
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 0.5px;
+  background: rgba(154,125,82,0.2);
+}
+.ph-line-v {
+  position: absolute;
+  left: 50%; top: 0; bottom: 0;
+  width: 0.5px;
+  background: rgba(154,125,82,0.2);
+}
+.ph-border {
+  position: absolute;
+  inset: 14px;
+  border: 0.5px solid rgba(154,125,82,0.28);
+}
+.ph-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.22em;
+  color: rgba(154,125,82,0.45);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 2.2;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(249,248,246,0.97);
+  backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--px);
+  height: var(--nav-h);
+}
+
+.nav-logo {
+  font-family: var(--font-en);
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  color: var(--black);
+  text-decoration: none;
+}
+
+.nav-hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 20px; height: 0.5px;
+  background: var(--black);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav-hamburger.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+.nav-drawer {
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0;
+  background: rgba(249,248,246,0.99);
+  z-index: 199;
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+}
+
+.nav-drawer.open { max-height: 300px; }
+
+.nav-drawer a {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 1rem var(--px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.1);
+  transition: color 0.2s;
+}
+
+.nav-drawer a:last-child { border-bottom: none; }
+/* ── NAV ACTIVE ── */
+.nav-drawer a.active {
+  color: var(--black);
+  font-weight: 500;
+}
+
+.nav-drawer a:active { color: var(--black); }
+
+/* ── HERO ── */
+.hero {
+  margin-top: var(--nav-h);
+  height: calc(100svh - var(--nav-h));
+  min-height: 520px;
+  position: relative;
+  overflow: hidden;
+  background: var(--off-white);
+}
+
+.hero .ph {
+  position: absolute; inset: 0;
+  background: var(--stone);
+}
+
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 35%,
+    rgba(248,247,244,0.45) 58%,
+    rgba(248,247,244,0.97) 100%
+  );
+  pointer-events: none;
+}
+
+.hero-content {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 0 var(--px) 2.5rem;
+  opacity: 0;
+  animation: fadeUp 1s ease 0.4s forwards;
+}
+
+.eyebrow {
+  font-size: 0.52rem;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.eyebrow::before {
+  content: '';
+  display: block;
+  width: 16px; height: 0.5px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+/* Large hero headline — Aesop scale */
+.hero-tagline {
+  font-family: var(--font-ja);
+  font-size: clamp(2.2rem, 10vw, 3rem);
+  font-weight: 700;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin-bottom: 1.25rem;
+}
+
+.hero-tagline em {
+  font-style: normal;
+  color: var(--gold);
+}
+
+.hero-body {
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+  color: var(--gray-dark);
+  margin-bottom: 2rem;
+}
+
+/* Full-width outline button — Aesop style */
+.btn-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+  border: 0.5px solid rgba(26,25,22,0.5);
+  background: transparent;
+  font-family: var(--font-ja);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--black);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.25s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-full::after {
+  content: '→';
+  font-size: 0.9rem;
+}
+
+.btn-full:active { background: rgba(154,125,82,0.06); }
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 1rem; right: var(--px);
+  font-size: 0.48rem;
+  letter-spacing: 0.22em;
+  color: var(--gray-lt);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  opacity: 0;
+  animation: fadeIn 1s ease 2s forwards;
+}
+
+/* ── SECTION COMMON ── */
+.section {
+  padding: 3.5rem var(--px);
+}
+
+.section-heading {
+  font-family: var(--font-ja);
+  font-size: clamp(1.6rem, 7vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  margin-bottom: 1.5rem;
+}
+
+.section-body {
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 2.2;
+  letter-spacing: 0.02em;
+  color: var(--gray-mid);
+  margin-bottom: 2rem;
+}
+
+/* ── FULL-BLEED PHOTO ── */
+.photo-full {
+  width: 100%;
+  aspect-ratio: 4/5;
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-full .ph { background: var(--stone); }
+
+.photo-wide {
+  width: 100%;
+  aspect-ratio: 3/2;
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-wide .ph { background: var(--cream); }
+
+/* ── WORLD SECTION ── */
+.world {
+  background: var(--white);
+}
+
+/* ── SCENE PAIR ── */
+.scene-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--stone);
+}
+
+.scene-cell {
+  aspect-ratio: 3/4;
+  position: relative;
+  overflow: hidden;
+}
+
+.scene-cell:nth-child(1) .ph { background: var(--cream); }
+.scene-cell:nth-child(2) .ph { background: var(--stone); }
+
+.scene-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 3rem 1rem 1rem;
+  background: linear-gradient(to top, rgba(237,232,223,0.85) 0%, transparent 100%);
+  font-size: 0.62rem;
+  font-weight: 200;
+  letter-spacing: 0.1em;
+  color: var(--gray-dark);
+  line-height: 1.9;
+  z-index: 2;
+}
+
+/* ── PHILOSOPHY ── */
+.philosophy {
+  background: var(--white);
+}
+
+/* Big quote — Aesop style, centered, serif */
+.quote-block {
+  padding: 4rem var(--px);
+  text-align: center;
+  background: var(--cream);
+}
+
+.quote-text {
+  font-family: var(--font-en);
+  font-size: clamp(1.3rem, 6vw, 1.8rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  color: var(--black);
+  margin-bottom: 1.5rem;
+}
+
+.quote-attr {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+/* ── DARK BAND ── */
+.dark-band {
+  background: #18150f;
+  padding: 3.5rem var(--px);
+  position: relative;
+}
+
+.dark-band::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent 5%, rgba(212,185,138,0.55) 50%, transparent 95%);
+}
+
+.dark-eyebrow {
+  font-size: 0.5rem;
+  letter-spacing: 0.25em;
+  color: rgba(154,125,82,0.5);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.dark-copy {
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 2.1;
+  letter-spacing: 0.02em;
+  color: rgba(240,240,240,0.6);
+}
+
+/* ── STORY ── */
+.story { background: var(--white); }
+
+.story-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.section-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.link-text {
+  font-size: 0.52rem;
+  letter-spacing: 0.16em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.link-text::after {
+  content: '';
+  display: block;
+  width: 16px; height: 0.5px;
+  background: currentColor;
+}
+
+/* Story card — Aesop style: full-bleed photo then text below */
+.story-card { margin-bottom: 3rem; cursor: pointer; }
+.story-card:last-child { margin-bottom: 0; }
+
+.story-photo {
+  width: 100%;
+  aspect-ratio: 16/10;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+}
+
+.story-photo .ph { background: var(--stone); }
+.story-card:nth-child(2) .story-photo .ph { background: var(--cream); }
+.story-card:nth-child(3) .story-photo .ph { background: var(--stone); }
+
+.story-cat {
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.story-title {
+  font-family: var(--font-ja);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  line-height: 1.8;
+}
+
+/* ── EMAIL CTA ── */
+.email-cta {
+  background: var(--black);
+  padding: 4rem var(--px);
+  text-align: center;
+}
+
+.email-eyebrow {
+  font-size: 0.5rem;
+  letter-spacing: 0.28em;
+  color: rgba(154,125,82,0.5);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.email-heading {
+  font-family: var(--font-ja);
+  font-size: clamp(1.15rem, 5vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+  color: rgba(245,242,236,0.85);
+  margin-bottom: 2.5rem;
+}
+
+.email-input {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 0.5px solid rgba(154,125,82,0.35);
+  outline: none;
+  padding: 0 0 0.75rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-ja);
+  font-size: 0.8rem;
+  font-weight: 200;
+  letter-spacing: 0.1em;
+  color: rgba(245,242,236,0.7);
+  text-align: center;
+}
+
+.email-input::placeholder { color: rgba(245,242,236,0.2); }
+
+.btn-full-gold {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+  border: 0.5px solid rgba(154,125,82,0.45);
+  background: transparent;
+  font-family: var(--font-ja);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--gold-mid);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-full-gold::after { content: '→'; font-size: 0.9rem; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--off-white);
+  border-top: 0.5px solid rgba(154,125,82,0.12);
+  padding: 3rem var(--px) 2rem;
+}
+
+.footer-logo {
+  font-family: var(--font-en);
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  color: var(--gray-mid);
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 2rem;
+}
+
+.footer-links li {
+  border-bottom: 0.5px solid rgba(154,125,82,0.1);
+}
+
+.footer-links a {
+  display: block;
+  padding: 0.75rem 0;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.footer-copy {
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  color: var(--gray-lt);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+
+/* ── DESKTOP: center at 430px ── */
+@media (min-width: 431px) {
+  body {
+    max-width: 430px;
+    margin: 0 auto;
+    box-shadow: 0 0 0 0.5px var(--stone);
+  }
+
+  nav, .nav-drawer {
+    max-width: 430px;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    width: 430px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="besson-mobile-v5.html" class="nav-logo">BESSON</a>
+  <div class="nav-hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <a href="besson-mobile-v5.html" class="active">Top</a>
+  <a href="besson-concept.html">Concept</a>
+  <a href="besson-lineup.html">Lineup</a>
+  <a href="besson-shop.html">Shop</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="ph" style="background:#ece8e1;">
+    <div class="ph-line-h"></div>
+    <div class="ph-line-v"></div>
+    <div class="ph-border"></div>
+    <p class="ph-label">Hero Photo<br>ワインセラー × 空間</p>
+  </div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <p class="eyebrow">Wine Cellar</p>
+    <h1 class="hero-tagline">
+      美しく並ぶ、<br><em>静かな贅沢。</em>
+    </h1>
+    <p class="hero-body">
+      道具は、暮らしをつくる。<br>
+      ワインセラーを置くという選択が、<br>
+      空間の意味を、静かに変える。
+    </p>
+    <a href="#" class="btn-full">Lineup を見る</a>
+  </div>
+
+  <span class="hero-scroll-hint">Scroll</span>
+</section>
+
+<!-- WORLD -->
+<section class="section world reveal">
+  <p class="eyebrow">The World of BESSON</p>
+  <h2 class="section-heading">
+    暮らしに、意図して<br>豊かさを置く。
+  </h2>
+  <p class="section-body">
+    ワインセラーを買う行為は、<br>
+    冷蔵庫を買う感覚ではない。<br>
+    「自分の暮らしをこういうものにしたい」<br>
+    という、静かな宣言に近い。<br><br>
+    BESSONのある空間は、毎日の終わりに、<br>
+    扉を開けるたびに、<br>
+    その選択が正しかったと教えてくれる。
+  </p>
+  <a href="#" class="btn-full">Concept を読む</a>
+</section>
+
+<!-- Full-bleed lifestyle photo -->
+<div class="photo-full reveal">
+  <div class="ph" style="background:#ece8e1;">
+    <div class="ph-line-h"></div>
+    <div class="ph-line-v"></div>
+    <div class="ph-border"></div>
+    <p class="ph-label">Lifestyle Photo<br>手元・ワイン・空間</p>
+  </div>
+</div>
+
+<!-- Scene pair -->
+<div class="scene-pair">
+  <div class="scene-cell reveal">
+    <div class="ph">
+      <div class="ph-line-h"></div>
+      <div class="ph-line-v"></div>
+    </div>
+    <p class="scene-caption">光の中に、<br>ボトルが並ぶ。</p>
+  </div>
+  <div class="scene-cell reveal reveal-d1">
+    <div class="ph" style="background:#ece8e1;">
+      <div class="ph-line-h"></div>
+      <div class="ph-line-v"></div>
+    </div>
+    <p class="scene-caption">一日の終わりに、<br>扉を開ける。</p>
+  </div>
+</div>
+
+<!-- PHILOSOPHY -->
+<section class="section philosophy reveal">
+  <p class="eyebrow">Design Philosophy</p>
+  <h2 class="section-heading">
+    削ぎ落とした先に、<br>本物がある。
+  </h2>
+  <p class="section-body">
+    BESSONのデザイン思想の発祥は、<br>
+    バウハウスに置きます。<br><br>
+    装飾でごまかさないこと。<br>
+    人間の暮らしを豊かにする道具であること。<br>
+    引き算の美学。<br><br>
+    素材そのものの美しさが、<br>
+    BESSONの品格の源泉です。
+  </p>
+  <a href="#" class="btn-full">Concept を読む</a>
+</section>
+
+<!-- Full-bleed product photo -->
+<div class="photo-full reveal">
+  <div class="ph" style="background:#f4f1eb;">
+    <div class="ph-line-h"></div>
+    <div class="ph-line-v"></div>
+    <div class="ph-border"></div>
+    <p class="ph-label">Product Photo<br>ワインセラー単体</p>
+  </div>
+</div>
+
+<!-- Big quote — Aesop style -->
+<div class="quote-block reveal">
+  <p class="quote-text">
+    "美しいものと、使えるものは、<br>
+    なぜ別々に存在しているのか。"
+  </p>
+  <p class="quote-attr">— Walter Gropius, Bauhaus 1919</p>
+</div>
+
+<!-- Dark band -->
+<div class="dark-band reveal">
+  <p class="dark-eyebrow">Less, but better</p>
+  <p class="dark-copy">
+    ガラスの透明感、木製棚の質感、<br>
+    スチールフレームの細さ——<br>
+    BESSONの美しさは、<br>
+    素材そのものから来なければならない。
+  </p>
+</div>
+
+<!-- STORY -->
+<section class="section story reveal">
+  <div class="story-head">
+    <span class="section-label">Story</span>
+    <a href="#" class="link-text">すべて読む</a>
+  </div>
+
+  <div class="story-card reveal">
+    <div class="story-photo">
+      <div class="ph" style="background:#ece8e1;">
+        <div class="ph-line-h"></div>
+        <div class="ph-line-v"></div>
+        <div class="ph-border"></div>
+        <p class="ph-label">Story Photo 01</p>
+      </div>
+    </div>
+    <p class="story-cat">Wine × Life</p>
+    <p class="story-title">ボルドーを知ることは、<br>フランスを知ることだ。</p>
+  </div>
+
+  <div class="story-card reveal">
+    <div class="story-photo">
+      <div class="ph" style="background:#f4f1eb;">
+        <div class="ph-line-h"></div>
+        <div class="ph-line-v"></div>
+        <div class="ph-border"></div>
+        <p class="ph-label">Story Photo 02</p>
+      </div>
+    </div>
+    <p class="story-cat">Design</p>
+    <p class="story-title">バウハウスが<br>問いかけたこと。</p>
+  </div>
+
+  <div class="story-card reveal">
+    <div class="story-photo">
+      <div class="ph" style="background:#ece8e1;">
+        <div class="ph-line-h"></div>
+        <div class="ph-line-v"></div>
+        <div class="ph-border"></div>
+        <p class="ph-label">Story Photo 03</p>
+      </div>
+    </div>
+    <p class="story-cat">Lifestyle</p>
+    <p class="story-title">夜の静けさに、<br>ワインを開ける理由。</p>
+  </div>
+</section>
+
+<!-- EMAIL CTA -->
+<section class="email-cta reveal">
+  <p class="email-eyebrow">Newsletter</p>
+  <h2 class="email-heading">
+    豊かな暮らしを意図的に<br>設計する、人たちへ。
+  </h2>
+  <input class="email-input" type="email" placeholder="メールアドレスを入力">
+  <button class="btn-full-gold">登録する</button>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">BESSON</span>
+    <ul class="footer-links">
+    <li><a href="#">プライバシーポリシー</a></li>
+    <li><a href="besson-tokusho.html">特定商取引法に基づく表記</a></li>
+    <li><a href="besson-shop.html">お問い合わせ</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 BESSON</p>
+</footer>
+
+<script>
+  // Reveal
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Hamburger
+  const hbg = document.getElementById('hamburger');
+  const drawer = document.getElementById('navDrawer');
+  hbg.addEventListener('click', () => {
+    hbg.classList.toggle('open');
+    drawer.classList.toggle('open');
+  });
+</script>
+</body>
+</html>
