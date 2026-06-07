@@ -178,21 +178,24 @@ nav {
   content: '';
   position: absolute;
   inset: 14px;
-  border: 0.5px solid rgba(154,125,82,0.25);
+  border: 1px dashed rgba(154,125,82,0.35);
 }
 
 .ph-lh { position:absolute; top:50%; left:0; right:0; height:0.5px; background:rgba(154,125,82,0.15); }
 .ph-lv { position:absolute; left:50%; top:0; bottom:0; width:0.5px; background:rgba(154,125,82,0.15); }
 
 .ph-label {
-  font-size: 0.5rem;
-  letter-spacing: 0.2em;
-  color: rgba(154,125,82,0.45);
-  text-transform: uppercase;
+  font-size: 0.52rem;
+  letter-spacing: 0.08em;
+  color: rgba(154,125,82,0.6);
+  text-transform: none;
   text-align: center;
-  line-height: 2.2;
+  line-height: 1.9;
   position: relative;
   z-index: 1;
+  white-space: pre-line;
+  font-family: var(--font-ja);
+  font-weight: 400;
 }
 
 /* ── BREADCRUMB ── */
@@ -1036,7 +1039,12 @@ footer {
 <div class="hero-photo">
   <div class="ph" style="background:#e0dcd4;">
     <div class="ph-lh"></div><div class="ph-lv"></div>
-    <p class="ph-label">C177 メイン写真</p>
+    <p class="ph-label">C177 メイン写真
+推奨サイズ: 1290 × 1720 px
+比率: 3:4（縦長）
+Retina対応: 2160 × 2880 px
+形式: JPG / WebP
+容量目安: 1〜2MB</p>
   </div>
   <p class="hero-badge">Flagship</p>
 </div>
@@ -1083,19 +1091,34 @@ footer {
   <div class="gallery-main" onclick="openLightbox('設置イメージ')">
     <div class="ph" style="background:#e8e3db;">
       <div class="ph-lh"></div><div class="ph-lv"></div>
-      <p class="ph-label">設置イメージ</p>
+      <p class="ph-label">設置イメージ
+推奨サイズ: 1290 × 726 px
+比率: 16:9（横長）
+Retina対応: 2160 × 1215 px
+形式: JPG / WebP
+容量目安: 800KB〜1.5MB</p>
     </div>
   </div>
   <div class="gallery-sub" onclick="openLightbox('庫内・棚')">
     <div class="ph">
       <div class="ph-lh"></div><div class="ph-lv"></div>
-      <p class="ph-label">庫内・棚</p>
+      <p class="ph-label">庫内・棚
+推奨サイズ: 645 × 645 px
+比率: 1:1（正方形）
+Retina対応: 1290 × 1290 px
+形式: JPG / WebP
+容量目安: 500KB〜1MB</p>
     </div>
   </div>
   <div class="gallery-sub" onclick="openLightbox('ディテール')">
     <div class="ph" style="background:#e0dcd4;">
       <div class="ph-lh"></div><div class="ph-lv"></div>
-      <p class="ph-label">ディテール</p>
+      <p class="ph-label">ディテール
+推奨サイズ: 645 × 645 px
+比率: 1:1（正方形）
+Retina対応: 1290 × 1290 px
+形式: JPG / WebP
+容量目安: 500KB〜1MB</p>
     </div>
   </div>
 </div>
