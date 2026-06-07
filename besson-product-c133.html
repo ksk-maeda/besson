@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BESSON C133 — 133本 Flagship</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white:     #ffffff;
+  --off-white: #f9f8f6;
+  --cream:     #f2efe9;
+  --stone:     #e8e3db;
+  --gold:      #9a7d52;
+  --gold-mid:  #b89a6a;
+  --black:     #1a1916;
+  --gray-dark: #3a3835;
+  --gray-mid:  #8a8680;
+  --gray-lt:   rgba(154,125,82,0.15);
+  --font-en:   'Cormorant Garamond', Georgia, serif;
+  --font-ja:   'Noto Sans JP', 'Hiragino Sans', sans-serif;
+  --nav-h:     52px;
+  --cta-h:     64px;
+  --px:        1.25rem;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--off-white);
+  color: var(--black);
+  font-family: var(--font-ja);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  padding-bottom: var(--cta-h);
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(249,248,246,0.97);
+  backdrop-filter: blur(16px);
+  border-bottom: 0.5px solid var(--gray-lt);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--px);
+  height: var(--nav-h);
+}
+
+.nav-logo {
+  font-family: var(--font-en);
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  color: var(--black);
+  text-decoration: none;
+}
+
+.nav-back {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.nav-back::before { content: '←'; font-size: 0.75rem; }
+
+.nav-hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 6px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 20px; height: 0.5px;
+  background: var(--black);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav-hamburger.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+.nav-drawer {
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0;
+  background: rgba(249,248,246,0.99);
+  z-index: 199;
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  border-bottom: 0.5px solid rgba(154,125,82,0.12);
+}
+
+.nav-drawer.open { max-height: 300px; }
+
+.nav-drawer a {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 1rem var(--px);
+  border-bottom: 0.5px solid rgba(154,125,82,0.08);
+}
+
+.nav-drawer a:last-child { border-bottom: none; }
+
+/* ── FIXED CTA ── */
+.fixed-cta {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 190;
+  height: var(--cta-h);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 0.5px solid var(--gray-lt);
+}
+
+.fixed-cta-shop {
+  background: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--off-white);
+  text-decoration: none;
+  gap: 0.4rem;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fixed-cta-line {
+  background: #06C755;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--white);
+  text-decoration: none;
+  gap: 0.4rem;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── PH ── */
+.ph {
+  width: 100%; height: 100%;
+  background: var(--stone);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ph::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border: 1px dashed rgba(154,125,82,0.35);
+}
+
+.ph-lh { position:absolute; top:50%; left:0; right:0; height:0.5px; background:rgba(154,125,82,0.15); }
+.ph-lv { position:absolute; left:50%; top:0; bottom:0; width:0.5px; background:rgba(154,125,82,0.15); }
+
+.ph-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.08em;
+  color: rgba(154,125,82,0.6);
+  text-transform: none;
+  text-align: center;
+  line-height: 1.9;
+  position: relative;
+  z-index: 1;
+  white-space: pre-line;
+  font-family: var(--font-ja);
+  font-weight: 400;
+}
+
+/* ── BREADCRUMB ── */
+.breadcrumb {
+  margin-top: var(--nav-h);
+  padding: 0.75rem var(--px);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 0.5px solid var(--gray-lt);
+  background: var(--off-white);
+}
+
+.breadcrumb a, .breadcrumb span {
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.breadcrumb .sep { color: var(--gray-lt); }
+.breadcrumb span:last-child { color: var(--black); font-weight: 500; }
+
+/* ── HERO PHOTO ── */
+.hero-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-photo .ph { background: #e0dcd4; }
+
+.hero-badge {
+  position: absolute;
+  top: 1.25rem; left: var(--px);
+  font-size: 0.48rem;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hero-badge::before {
+  content: '';
+  display: block;
+  width: 12px; height: 0.5px;
+  background: var(--gold);
+}
+
+/* ── PRODUCT INFO ── */
+.product-info {
+  padding: 2rem var(--px);
+  border-bottom: 0.5px solid var(--gray-lt);
+}
+
+.product-model {
+  font-family: var(--font-en);
+  font-size: 2.4rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: var(--black);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.product-name {
+  font-size: 0.7rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.06em;
+  margin-bottom: 1.5rem;
+}
+
+.product-desc {
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 2.3;
+  letter-spacing: 0.03em;
+  color: var(--gray-dark);
+  margin-bottom: 2rem;
+}
+
+.key-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-top: 0.5px solid var(--gray-lt);
+  margin-bottom: 2rem;
+}
+
+.key-spec {
+  padding: 1rem 0;
+  border-right: 0.5px solid var(--gray-lt);
+  text-align: center;
+}
+
+.key-spec:last-child { border-right: none; }
+
+.key-spec-num {
+  font-family: var(--font-en);
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--black);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.key-spec-unit {
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  color: var(--gray-mid);
+  text-transform: uppercase;
+}
+
+.price-block { margin-bottom: 0.5rem; }
+
+.price {
+  font-family: var(--font-en);
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--black);
+}
+
+.price-tax {
+  font-size: 0.58rem;
+  color: var(--gray-mid);
+  margin-left: 0.2rem;
+}
+
+.price-note {
+  font-size: 0.62rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+}
+
+/* ── PHOTO GALLERY ── */
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--stone);
+}
+
+.gallery-main {
+  grid-column: 1 / -1;
+  aspect-ratio: 16/9;
+  position: relative;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.gallery-sub {
+  aspect-ratio: 1/1;
+  position: relative;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.gallery-main .ph { background: var(--cream); }
+.gallery-sub:nth-child(2) .ph { background: var(--stone); }
+.gallery-sub:nth-child(3) .ph { background: var(--cream); }
+
+/* Lightbox */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26,25,22,0.95);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox.open { display: flex; }
+
+.lightbox-close {
+  position: absolute;
+  top: 1.25rem; right: 1.25rem;
+  font-size: 1.5rem;
+  color: rgba(245,242,236,0.6);
+  cursor: pointer;
+  background: none;
+  border: none;
+  line-height: 1;
+}
+
+.lightbox-content {
+  width: 90%;
+  max-width: 380px;
+  aspect-ratio: 3/4;
+  background: var(--stone);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: rgba(245,242,236,0.4);
+  text-transform: uppercase;
+}
+
+/* ── SECTION ── */
+.section {
+  padding: 2.5rem var(--px);
+  border-bottom: 0.5px solid var(--gray-lt);
+}
+
+.section-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.28em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 12px; height: 0.5px;
+  background: var(--gold);
+}
+
+/* ── FOR WHOM ── */
+.for-whom {
+  background: var(--cream);
+  padding: 2.5rem var(--px);
+  border-bottom: 0.5px solid var(--gray-lt);
+}
+
+.for-whom-text {
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 2.4;
+  letter-spacing: 0.03em;
+  color: var(--gray-dark);
+}
+
+/* ── DIMENSION DIAGRAM ── */
+.dimension-wrap {
+  background: var(--white);
+  border: 0.5px solid var(--gray-lt);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.dim-figure {
+  position: relative;
+  width: 120px;
+}
+
+.dim-box {
+  width: 120px;
+  height: 200px;
+  border: 1.5px solid var(--black);
+  position: relative;
+  background: var(--off-white);
+}
+
+/* dimension lines */
+.dim-line-w {
+  position: absolute;
+  bottom: -28px; left: 0; right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.dim-line-h {
+  position: absolute;
+  top: 0; bottom: 0; right: -32px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+}
+
+.dim-arrow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.dim-arrow-h {
+  width: 100%;
+  height: 0.5px;
+  background: var(--gray-mid);
+  position: relative;
+}
+
+.dim-arrow-h::before,
+.dim-arrow-h::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  width: 0; height: 0;
+}
+
+.dim-arrow-h::before {
+  left: 0;
+  border-right: 4px solid var(--gray-mid);
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+}
+
+.dim-arrow-h::after {
+  right: 0;
+  border-left: 4px solid var(--gray-mid);
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+}
+
+.dim-val-w {
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: var(--black);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.dim-arrow-v {
+  height: 100%;
+  width: 0.5px;
+  background: var(--gray-mid);
+  position: relative;
+}
+
+.dim-arrow-v::before,
+.dim-arrow-v::after {
+  content: '';
+  position: absolute;
+  left: -2px;
+  width: 0; height: 0;
+}
+
+.dim-arrow-v::before {
+  top: 0;
+  border-bottom: 4px solid var(--gray-mid);
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+}
+
+.dim-arrow-v::after {
+  bottom: 0;
+  border-top: 4px solid var(--gray-mid);
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+}
+
+.dim-val-h {
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: var(--black);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+}
+
+.dim-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dim-table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 0.5px solid rgba(154,125,82,0.1);
+  padding: 0.6rem 0;
+  text-align: center;
+}
+
+.dim-table-row:last-child { border-bottom: none; }
+
+.dim-table-label {
+  font-size: 0.6rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.08em;
+}
+
+.dim-table-val {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--black);
+  letter-spacing: 0.05em;
+}
+
+.dim-note {
+  font-size: 0.6rem;
+  color: var(--gray-mid);
+  line-height: 1.9;
+  letter-spacing: 0.03em;
+  text-align: center;
+}
+
+/* ── HIGHLIGHTS ── */
+.highlight-band {
+  background: var(--cream);
+  padding: 2.5rem var(--px);
+  border-bottom: 0.5px solid var(--gray-lt);
+}
+
+.highlight-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem 0;
+  border-bottom: 0.5px solid rgba(154,125,82,0.1);
+}
+
+.highlight-item:first-child { padding-top: 0; }
+.highlight-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.highlight-icon {
+  font-size: 0.65rem;
+  color: var(--gold);
+  flex-shrink: 0;
+  width: 16px;
+  padding-top: 0.15rem;
+}
+
+.highlight-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 0.3rem;
+}
+
+.highlight-body {
+  font-size: 0.72rem;
+  line-height: 2;
+  letter-spacing: 0.02em;
+  color: var(--gray-mid);
+}
+
+/* ── INSTALLATION CHECK ── */
+.install-check {
+  padding: 2.5rem var(--px);
+  border-bottom: 0.5px solid var(--gray-lt);
+}
+
+.check-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.75rem 0;
+  border-bottom: 0.5px solid rgba(154,125,82,0.08);
+}
+
+.check-item:last-child { border-bottom: none; }
+
+.check-mark {
+  width: 16px; height: 16px;
+  border: 0.5px solid var(--gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.1rem;
+}
+
+.check-mark::after {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+.check-text {
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+  color: var(--gray-dark);
+}
+
+/* ── SPEC TABLE ── */
+.spec-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  border-bottom: 0.5px solid rgba(154,125,82,0.1);
+}
+
+.spec-row:last-child { border-bottom: none; }
+
+.spec-key {
+  padding: 0.9rem var(--px) 0.9rem 0;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--gray-dark);
+  letter-spacing: 0.03em;
+  line-height: 1.6;
+}
+
+.spec-val {
+  padding: 0.9rem 0;
+  font-size: 0.72rem;
+  color: var(--black);
+  letter-spacing: 0.02em;
+  line-height: 1.8;
+}
+
+/* Warranty highlight */
+.warranty-block {
+  margin-top: 1.5rem;
+  background: var(--cream);
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.warranty-icon {
+  font-family: var(--font-en);
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: var(--gold);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.warranty-text {
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.9;
+  color: var(--gray-dark);
+}
+
+.warranty-text strong {
+  font-weight: 700;
+  color: var(--black);
+  display: block;
+  margin-bottom: 0.1rem;
+}
+
+/* ── REVIEWS ── */
+.review-item {
+  padding: 1.5rem 0;
+  border-bottom: 0.5px solid rgba(154,125,82,0.1);
+}
+
+.review-item:first-child { padding-top: 0; }
+.review-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.review-stars {
+  font-size: 0.6rem;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.review-text {
+  font-size: 0.75rem;
+  line-height: 2.1;
+  letter-spacing: 0.02em;
+  color: var(--gray-dark);
+}
+
+/* ── FAQ ── */
+.faq-item { border-bottom: 0.5px solid rgba(154,125,82,0.12); overflow: hidden; }
+
+.faq-q {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 1.1rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  text-align: left;
+}
+
+.faq-q-text {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--black);
+  line-height: 1.6;
+}
+
+.faq-icon {
+  font-size: 1rem;
+  color: var(--gold);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  font-family: var(--font-en);
+  font-weight: 300;
+  line-height: 1;
+}
+
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+.faq-item.open .faq-a { max-height: 300px; }
+
+.faq-a-text {
+  font-size: 0.75rem;
+  line-height: 2.1;
+  letter-spacing: 0.02em;
+  color: var(--gray-mid);
+  padding-bottom: 1.25rem;
+}
+
+/* ── RELATED ── */
+.related-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--stone);
+}
+
+.related-card {
+  background: var(--off-white);
+  text-decoration: none;
+  display: block;
+}
+
+.related-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  position: relative;
+  overflow: hidden;
+}
+
+.related-photo .ph { background: var(--cream); }
+
+.related-info { padding: 0.75rem var(--px) 1rem; }
+
+.related-context {
+  font-size: 0.5rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.related-model {
+  font-family: var(--font-en);
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: var(--black);
+  margin-bottom: 0.15rem;
+}
+
+.related-desc {
+  font-size: 0.58rem;
+  color: var(--gray-mid);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+}
+
+.related-price {
+  font-family: var(--font-en);
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--black);
+}
+
+/* ── DARK CTA ── */
+.dark-cta {
+  background: #18150f;
+  padding: 3rem var(--px);
+  position: relative;
+}
+
+.dark-cta::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent 5%, rgba(212,185,138,0.5) 50%, transparent 95%);
+}
+
+.dark-cta-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.28em;
+  color: rgba(154,125,82,0.55);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.dark-cta-text {
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+  color: rgba(245,242,236,0.85);
+  margin-bottom: 1.5rem;
+}
+
+.btn-gold {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+  border: 0.5px solid rgba(154,125,82,0.45);
+  background: transparent;
+  font-family: var(--font-ja);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--gold-mid);
+  text-decoration: none;
+  margin-bottom: 0.75rem;
+}
+
+.btn-gold::after { content: '→'; }
+
+
+/* ── LINE CTA ── */
+.btn-line-register {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+  background: #06C755;
+  border: none;
+  font-family: var(--font-ja);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 0.75rem;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-line-icon {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  background: rgba(255,255,255,0.25);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.line-note {
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: rgba(245,242,236,0.35);
+  text-align: center;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--cream);
+  border-top: 0.5px solid var(--gray-lt);
+  padding: 3rem var(--px) 2rem;
+}
+
+.footer-logo {
+  font-family: var(--font-en);
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.45em;
+  color: var(--gray-mid);
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.footer-links { list-style: none; margin-bottom: 2rem; }
+.footer-links li { border-bottom: 0.5px solid rgba(154,125,82,0.1); }
+.footer-links a {
+  display: block;
+  padding: 0.75rem 0;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--gray-mid);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.footer-copy { font-size: 0.5rem; letter-spacing: 0.1em; color: var(--stone); }
+
+/* ── REVEAL ── */
+.reveal { opacity:0; transform:translateY(12px); transition:opacity .8s ease,transform .8s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.reveal-d1 { transition-delay:.1s; }
+
+@media (min-width: 431px) {
+  body { max-width:430px; margin:0 auto; box-shadow:0 0 0 0.5px var(--stone); }
+  nav, .nav-drawer, .fixed-cta { max-width:430px; left:50%; transform:translateX(-50%); right:auto; width:430px; }
+}
+</style>
+</head>
+<body>
+
+<!-- FIXED CTA -->
+<div class="fixed-cta">
+  <a href="besson-shop.html" class="fixed-cta-shop">購入する →</a>
+  <a href="#" class="fixed-cta-line">LINEで相談する</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="besson-mobile-v5.html" class="nav-logo">BESSON</a>
+  <a href="besson-lineup.html" class="nav-back">Lineup</a>
+  <div class="nav-hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="nav-drawer" id="navDrawer">
+  <a href="besson-mobile-v5.html">Top</a>
+  <a href="besson-concept.html">Concept</a>
+  <a href="besson-lineup.html">Lineup</a>
+  <a href="besson-shop.html">Shop</a>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="besson-mobile-v5.html">Top</a>
+  <span class="sep">›</span>
+  <a href="besson-lineup.html">Lineup</a>
+  <span class="sep">›</span>
+  <span>C133</span>
+</div>
+
+<!-- HERO -->
+<div class="hero-photo">
+  <div class="ph" style="background:#e0dcd4;">
+    <div class="ph-lh"></div><div class="ph-lv"></div>
+    <p class="ph-label">C133 メイン写真
+推奨サイズ: 1290 × 1720 px
+比率: 3:4（縦長）
+Retina対応: 2160 × 2880 px
+形式: JPG / WebP
+容量目安: 1〜2MB</p>
+  </div>
+  <p class="hero-badge">Flagship</p>
+</div>
+
+<!-- PRODUCT INFO -->
+<div class="product-info reveal">
+  <p class="product-model">C133</p>
+  <p class="product-name">コンプレッサー式ワインセラー 133本</p>
+  <p class="product-desc">
+    177本のボトルが、静かに並ぶ。<br>
+    前後に交互に収納することで、幅595mmという設置面積に凝縮した。<br>
+    ホテルのレストランやバーで使われているものと、同じ基準で作られている。<br>
+    リビングの壁面に、あるいはダイニングの一角に。<br>
+    空間の意味を、静かに変える一台。
+  </p>
+
+  <div class="key-specs">
+    <div class="key-spec">
+      <p class="key-spec-num">133</p>
+      <p class="key-spec-unit">本収納</p>
+    </div>
+    <div class="key-spec">
+      <p class="key-spec-num">5-18</p>
+      <p class="key-spec-unit">℃ 設定範囲</p>
+    </div>
+    <div class="key-spec">
+      <p class="key-spec-num">145</p>
+      <p class="key-spec-unit">W 消費電力</p>
+    </div>
+  </div>
+
+  <div class="price-block">
+    <span class="price">¥198,000</span>
+    <span class="price-tax">税込</span>
+  </div>
+  <p class="price-note">
+    送料無料・延長保証付き<br>
+    <a href="#line-cta" style="color:var(--gold);text-decoration:none;font-size:0.62rem;">購入前のご相談はLINEで →</a>
+  </p>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery reveal">
+  <div class="gallery-main" onclick="openLightbox('設置イメージ')">
+    <div class="ph" style="background:#e8e3db;">
+      <div class="ph-lh"></div><div class="ph-lv"></div>
+      <p class="ph-label">設置イメージ
+推奨サイズ: 1290 × 726 px
+比率: 16:9（横長）
+Retina対応: 2160 × 1215 px
+形式: JPG / WebP
+容量目安: 800KB〜1.5MB</p>
+    </div>
+  </div>
+  <div class="gallery-sub" onclick="openLightbox('庫内・棚')">
+    <div class="ph">
+      <div class="ph-lh"></div><div class="ph-lv"></div>
+      <p class="ph-label">庫内・棚
+推奨サイズ: 645 × 645 px
+比率: 1:1（正方形）
+Retina対応: 1290 × 1290 px
+形式: JPG / WebP
+容量目安: 500KB〜1MB</p>
+    </div>
+  </div>
+  <div class="gallery-sub" onclick="openLightbox('ディテール')">
+    <div class="ph" style="background:#e0dcd4;">
+      <div class="ph-lh"></div><div class="ph-lv"></div>
+      <p class="ph-label">ディテール
+推奨サイズ: 645 × 645 px
+比率: 1:1（正方形）
+Retina対応: 1290 × 1290 px
+形式: JPG / WebP
+容量目安: 500KB〜1MB</p>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <div class="lightbox-content">
+    <p class="lightbox-label" id="lightboxLabel"></p>
+  </div>
+</div>
+
+<!-- FOR WHOM -->
+<div class="for-whom reveal">
+  <p class="section-label">このモデルが向いている方</p>
+  <p class="for-whom-text">
+    本格的なワインコレクションを始めたい方。C177は大きすぎると感じるが、Flagshipラインの品質は求める方。天井高に余裕のない空間に大容量セラーを置きたい方。
+  </p>
+</div>
+
+<!-- HIGHLIGHTS -->
+<div class="highlight-band reveal">
+  <p class="section-label">このモデルについて</p>
+  <div class="highlight-item">
+    <p class="highlight-icon">—</p>
+    <div>
+      <p class="highlight-title">加温機能搭載</p>
+      <p class="highlight-body">5〜18℃の精密な温度管理で、冷却だけでなく加温にも対応。一年を通じてワインの熟成に最適な環境を維持する。</p>
+    </div>
+  </div>
+  <div class="highlight-item">
+    <p class="highlight-icon">—</p>
+    <div>
+      <p class="highlight-title">C177と同幅・高さを抑えた設計</p>
+      <p class="highlight-body">幅595mmはC177と同じ。高さ1340mmに抑えたことで、天井が低い空間や圧迫感を避けたい場所に対応する。</p>
+    </div>
+  </div>
+  <div class="highlight-item">
+    <p class="highlight-icon">—</p>
+    <div>
+      <p class="highlight-title">木製棚・庫内灯</p>
+      <p class="highlight-body">木製棚が並ぶボトルに温もりを添え、庫内灯がガラス越しの景色をつくる。</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- DIMENSION -->
+<div class="section reveal">
+  <p class="section-label">設置寸法</p>
+  <div class="dimension-wrap">
+    <div class="dim-figure">
+      <div class="dim-box"></div>
+      <div class="dim-line-w">
+        <div style="width:100%;height:0.5px;background:var(--gray-mid);position:relative;">
+          <div style="position:absolute;left:0;top:-2px;border-right:4px solid var(--gray-mid);border-top:2px solid transparent;border-bottom:2px solid transparent;"></div>
+          <div style="position:absolute;right:0;top:-2px;border-left:4px solid var(--gray-mid);border-top:2px solid transparent;border-bottom:2px solid transparent;"></div>
+        </div>
+        <p style="font-size:0.58rem;font-weight:500;color:var(--black);white-space:nowrap;">幅 595mm</p>
+      </div>
+      <div class="dim-line-h">
+        <div style="height:100%;width:0.5px;background:var(--gray-mid);position:relative;">
+          <div style="position:absolute;top:0;left:-2px;border-bottom:4px solid var(--gray-mid);border-left:2px solid transparent;border-right:2px solid transparent;"></div>
+          <div style="position:absolute;bottom:0;left:-2px;border-top:4px solid var(--gray-mid);border-left:2px solid transparent;border-right:2px solid transparent;"></div>
+        </div>
+        <p style="font-size:0.58rem;font-weight:500;color:var(--black);white-space:nowrap;writing-mode:vertical-rl;">高さ 1340mm</p>
+      </div>
+    </div>
+
+    <div style="width:100%;">
+      <div class="dim-table-row" style="border-bottom:0.5px solid rgba(154,125,82,0.1);padding:0.6rem 0;text-align:center;display:grid;grid-template-columns:1fr 1fr 1fr;">
+        <p style="font-size:0.6rem;color:var(--gray-mid);letter-spacing:0.08em;">幅</p>
+        <p style="font-size:0.6rem;color:var(--gray-mid);letter-spacing:0.08em;">奥行</p>
+        <p style="font-size:0.6rem;color:var(--gray-mid);letter-spacing:0.08em;">高さ</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:0.6rem 0;text-align:center;border-bottom:0.5px solid rgba(154,125,82,0.1);">
+        <p style="font-size:0.85rem;font-weight:500;color:var(--black);">595</p>
+        <p style="font-size:0.85rem;font-weight:500;color:var(--black);">680</p>
+        <p style="font-size:0.85rem;font-weight:500;color:var(--black);">1340</p>
+      </div>
+      <div style="padding:0.6rem 0;text-align:center;">
+        <p style="font-size:0.55rem;color:var(--gray-mid);letter-spacing:0.06em;">単位：mm　重量：87kg</p>
+      </div>
+    </div>
+
+    <p class="dim-note">
+      放熱スペースとして左右各5cm以上、<br>背面10cm以上の確保を推奨します。<br>大型モデルのため床面の強度もご確認ください。
+    </p>
+  </div>
+</div>
+
+<!-- INSTALLATION CHECK -->
+<div class="install-check reveal">
+  <p class="section-label">設置前チェックリスト</p>
+  <div class="check-item">
+    <div class="check-mark"></div>
+    <p class="check-text">幅595 × 奥行680 × 高さ1340mm のスペースが確保できますか？</p>
+  </div>
+  <div class="check-item">
+    <div class="check-mark"></div>
+    <p class="check-text">左右各5cm以上、背面10cm以上の放熱スペースが確保できますか？</p>
+  </div>
+  <div class="check-item">
+    <div class="check-mark"></div>
+    <p class="check-text">床面は72kgの荷重に耐えられる強度がありますか？</p>
+  </div>
+  <div class="check-item">
+    <div class="check-mark"></div>
+    <p class="check-text">専用コンセント（AC100V）は設置場所の近くにありますか？</p>
+  </div>
+  <div class="check-item">
+    <div class="check-mark"></div>
+    <p class="check-text">搬入経路（玄関・廊下・ドア幅）に余裕はありますか？</p>
+  </div>
+
+</div>
+
+<!-- SPEC TABLE -->
+<div class="section reveal">
+  <p class="section-label">仕様</p>
+  <div class="spec-row"><p class="spec-key">品番</p><p class="spec-val">—</p></div>
+  <div class="spec-row"><p class="spec-key">収納本数</p><p class="spec-val">133本</p></div>
+  <div class="spec-row"><p class="spec-key">棚構成</p><p class="spec-val">—</p></div>
+  <div class="spec-row"><p class="spec-key">外寸（mm）</p><p class="spec-val">幅595 × 奥行680 × 高さ1340</p></div>
+  <div class="spec-row"><p class="spec-key">重量</p><p class="spec-val">72kg</p></div>
+  <div class="spec-row"><p class="spec-key">温度設定範囲</p><p class="spec-val">5〜18℃</p></div>
+  <div class="spec-row"><p class="spec-key">温度ゾーン</p><p class="spec-val">1ゾーン</p></div>
+  <div class="spec-row"><p class="spec-key">加温機能</p><p class="spec-val">あり</p></div>
+  <div class="spec-row"><p class="spec-key">消費電力</p><p class="spec-val">145W</p></div>
+  <div class="spec-row"><p class="spec-key">年間電気代目安</p><p class="spec-val">約3,800〜6,000円前後</p></div>
+  <div class="spec-row"><p class="spec-key">棚の素材</p><p class="spec-val">木製</p></div>
+  <div class="spec-row"><p class="spec-key">扉の種類</p><p class="spec-val">ステンレス</p></div>
+  <div class="spec-row"><p class="spec-key">庫内灯</p><p class="spec-val">あり</p></div>
+  <div class="spec-row"><p class="spec-key">同梱物</p><p class="spec-val">ワイン棚×14・ワイン棚（小）×1・ドアハンドル×1・取り付けネジ×2・扉補強パーツ×2</p></div>
+
+  <div class="warranty-block">
+    <p class="warranty-icon">保</p>
+    <p class="warranty-text">
+      <strong>保証期間：1年</strong>
+      自社ストアでのご購入は延長保証付き。初期不良は到着後14日以内にご連絡ください。
+    </p>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<div class="section reveal">
+  <p class="section-label">お客様の声</p>
+  <div class="review-item">
+    <p class="review-stars">★★★★★</p>
+    <p class="review-text">長年集めてきたワインをようやくまとめて適温管理できるようになりました。133本入ると、産地やヴィンテージごとに整理しても余裕があり、コレクターとしては理想的な容量です。</p>
+  </div>
+  <div class="review-item">
+    <p class="review-stars">★★★★★</p>
+    <p class="review-text">上下で温度帯を変えられるので、上段を白ワイン・シャンパン用に低め、下段を赤ワイン用にやや高めと使い分けています。1台で済むのでスペースの節約にもなります。</p>
+  </div>
+  <div class="review-item">
+    <p class="review-stars">★★★★★</p>
+    <p class="review-text">この大容量でも動作音が静かなのは驚きました。リビング横の廊下に置いていますが、生活空間にいて音が気になることはほぼありません。</p>
+  </div>
+
+</div>
+
+<!-- FAQ -->
+<div class="section reveal">
+  <p class="section-label">よくある質問</p>
+  <div class="faq-item">
+    <button class="faq-q"><span class="faq-q-text">二温管理に対応していますか？</span><span class="faq-icon">+</span></button>
+    <div class="faq-a"><p class="faq-a-text">はい。上下で独立した温度設定が可能です。上段を低温で白ワインやスパークリング、下段をやや高めで赤ワインの長期熟成用と使い分けることができます。</p></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q"><span class="faq-q-text">棚板の荷重制限はありますか？</span><span class="faq-icon">+</span></button>
+    <div class="faq-a"><p class="faq-a-text">棚板1枚あたり15kg以上の荷重はかけないでください。また、棚板を同時に2枚以上引き出すと本体転倒の恐れがありますので、ボトルの出し入れは必ず1段ずつ行ってください。</p></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q"><span class="faq-q-text">本体の側面が熱くなりますが故障ですか？</span><span class="faq-icon">+</span></button>
+    <div class="faq-a"><p class="faq-a-text">故障ではありません。コンプレッサー式は庫内から奪った熱を本体側面から放熱する仕組みのため、冷却稼働中は側面が温かくなります。放熱が妨げられると冷却効率の低下や故障の原因になりますので、左右・背面に十分な放熱スペースを確保してください。</p></div>
+  </div>  <div class="faq-item">
+    <button class="faq-q"><span class="faq-q-text">廃棄するときはどうすればいいですか？</span><span class="faq-icon">+</span></button>
+    <div class="faq-a"><p class="faq-a-text">家電リサイクル法の対象品です。廃棄時は収集・運搬料金と再商品化料金をお支払いのうえ、販売店または市町村に引き渡してください。新品ご購入の際はリサイクル回収も承っております（別途料金）。</p></div>
+  </div>
+</div>
+
+<!-- RELATED -->
+<div class="section reveal" style="padding-bottom:0;border-bottom:none;">
+  <p class="section-label">他のモデルを見る</p>
+</div>
+<div class="related-grid reveal">
+  <a href="#" class="related-card">
+    <div class="related-photo">
+      <div class="ph" style="background:#e8e3db;"><div class="ph-lh"></div><div class="ph-lv"></div></div>
+    </div>
+    <div class="related-info">
+      <p class="related-context">下位モデル</p>
+      <p class="related-model">C133</p>
+      <p class="related-desc">133本 · Flagship</p>
+      <p class="related-price">¥198,000</p>
+    </div>
+  </a>
+  <a href="#" class="related-card">
+    <div class="related-photo">
+      <div class="ph"><div class="ph-lh"></div><div class="ph-lv"></div></div>
+    </div>
+    <div class="related-info">
+      <p class="related-context">下位モデル</p>
+      <p class="related-model">C80</p>
+      <p class="related-desc">80本 · Flagship</p>
+      <p class="related-price">¥148,000</p>
+    </div>
+  </a>
+</div>
+
+<!-- LINE CTA -->
+<div class="dark-cta reveal" id="line-cta">
+  <p class="dark-cta-label">BESSON Community</p>
+  <p class="dark-cta-text">
+    購入前の相談も、購入後のサポートも、<br>
+    LINEで気軽にどうぞ。<br>
+    イベントや限定情報もお届けします。
+  </p>
+  <a href="#" class="btn-line-register">
+    <span class="btn-line-icon">LINE</span>
+    BESSONの公式LINEに登録する
+  </a>
+  <p class="line-note">登録無料・いつでも退会できます</p>
+</div>
+
+<footer>
+  <span class="footer-logo">BESSON</span>
+  <ul class="footer-links">
+    <li><a href="#">プライバシーポリシー</a></li>
+    <li><a href="besson-tokusho.html">特定商取引法に基づく表記</a></li>
+    <li><a href="besson-shop.html">お問い合わせ</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 BESSON</p>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const hbg = document.getElementById('hamburger');
+  const drawer = document.getElementById('navDrawer');
+  hbg.addEventListener('click', () => {
+    hbg.classList.toggle('open');
+    drawer.classList.toggle('open');
+  });
+
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  function openLightbox(label) {
+    document.getElementById('lightboxLabel').textContent = label;
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+</script>
+</body>
+</html>
