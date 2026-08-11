@@ -1,6 +1,8 @@
 ---
 import { CATEGORIES } from '../lib/categories';
 // 物語順ナビ。モバイル最優先＝ロゴ＋ハンバーガーのみ（サイトガイド.md準拠）
+// 2026-08-11: けいさんFB「ハンバーガーメニューだけでは何を売っているブランドか分からない」を受け、
+// 各シリーズに本数レンジと導入一文を追加。凍結済みのシリーズ名・コピーは変更していない。
 const navOrder = ['bistro', 'lounge', 'bar', 'grand-maison'];
 const navItems = navOrder.map((k) => CATEGORIES.find((c) => c.key === k)!);
 ---
@@ -13,12 +15,18 @@ const navItems = navOrder.map((k) => CATEGORIES.find((c) => c.key === k)!);
     </button>
   </div>
   <nav id="navDrawer" class="nav-drawer">
+    <p class="nav-drawer__intro">ワインセラー、5つの空間から選ぶ。</p>
     <ul>
       {navItems.map((c) => (
-        <li><a href={`/${c.slug}`}>{c.name}</a></li>
+        <li>
+          <a href={`/${c.slug}`}>
+            <span class="nav-drawer__name">{c.name}</span>
+            <span class="nav-drawer__meta">{c.bottleRange}</span>
+          </a>
+        </li>
       ))}
       <li><a href="/story">Our Story</a></li>
-      <li><a href="/shop">Shop</a></li>
+      <li><a href="/shop">Shop（全モデル一覧）</a></li>
       <li><a href="/contact">Contact</a></li>
       <li><a href="/faq">FAQ</a></li>
     </ul>
@@ -76,7 +84,13 @@ const navItems = navOrder.map((k) => CATEGORIES.find((c) => c.key === k)!);
     border-bottom: 1px solid var(--stone);
     transition: max-height 0.35s ease;
   }
-  .nav-drawer.open { max-height: 400px; }
+  .nav-drawer.open { max-height: 480px; }
+  .nav-drawer__intro {
+    padding: 0.9rem var(--px-lg) 0;
+    font-family: var(--font-ja-serif);
+    font-size: 0.85rem;
+    color: var(--gray-mid);
+  }
   .nav-drawer ul {
     list-style: none;
     margin: 0;
@@ -84,10 +98,19 @@ const navItems = navOrder.map((k) => CATEGORIES.find((c) => c.key === k)!);
   }
   .nav-drawer li { border-bottom: 1px solid var(--stone); }
   .nav-drawer a {
-    display: block;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
     padding: 0.9rem 0;
     font-family: var(--font-en);
     letter-spacing: 0.04em;
+  }
+  .nav-drawer__meta {
+    font-size: 0.7rem;
+    color: var(--gray-mid);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
   }
 </style>
 

@@ -10,6 +10,7 @@ export interface CategoryInfo {
   copy: string;
   worldview: string;
   models: string[];
+  bottleRange: string;
 }
 
 export const CATEGORIES: CategoryInfo[] = [
@@ -20,6 +21,7 @@ export const CATEGORIES: CategoryInfo[] = [
     copy: '気取らない扉を、押してみる。',
     worldview: '気取らない扉の奥に、本物がある店',
     models: ['C28st', 'C18st'],
+    bottleRange: '18〜28本',
   },
   {
     key: 'lounge',
@@ -28,6 +30,7 @@ export const CATEGORIES: CategoryInfo[] = [
     copy: '時間の流れが、ここだけ変わる。',
     worldview: '特別な日を待たない、館の寛ぎ',
     models: ['C36', 'C27', 'C18', 'C12'],
+    bottleRange: '12〜36本',
   },
   {
     key: 'bar',
@@ -36,6 +39,7 @@ export const CATEGORIES: CategoryInfo[] = [
     copy: 'グラスが鳴って、夜が深まる。',
     worldview: '夜のいちばん端の、自分だけのカウンター',
     models: ['C7'],
+    bottleRange: '7本',
   },
   {
     key: 'grand-maison',
@@ -44,6 +48,7 @@ export const CATEGORIES: CategoryInfo[] = [
     copy: 'フルコースの隣に、ワインリストを。',
     worldview: '祝祭の晩餐と、継承の器',
     models: ['C177', 'C133', 'C80', 'C55'],
+    bottleRange: '55〜177本',
   },
   {
     key: 'chateau',
@@ -52,6 +57,7 @@ export const CATEGORIES: CategoryInfo[] = [
     copy: '建築家と、ワインのこだわりを。',
     worldview: 'あなたの家に建てる、あなたのシャトー',
     models: [],
+    bottleRange: '受注生産',
   },
 ];
 
