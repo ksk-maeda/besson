@@ -10,17 +10,14 @@ const cats = storyOrder.map((k) => CATEGORIES.find((c) => c.key === k)!);
 function productsFor(catKey: string) {
   return products.filter((p) => p.data.category === catKey).sort((a, b) => a.data.bottles - b.data.bottles);
 }
-
-// TODO: Amazon商品ページのURL（型番ごとのASIN）が未整備。取得後、各行の href を実URLに差し替える。
-const AMAZON_STORE_URL = 'https://www.amazon.co.jp/stores/BESSON';
 ---
 
-<BaseLayout title="Shop" description="BESSONの購入は現在Amazon経由での取り扱いです。全11モデルの一覧から選べます。">
+<BaseLayout title="Shop" description="BESSONの購入は自社サイトから直接お求めいただけます。全11モデルの一覧から選べます。">
   <section class="section shop">
     <div class="container">
       <h1>Shop</h1>
       <p class="shop__lead">
-        現在、BESSONはAmazonでお取り扱いしています。自社ストアでの直接販売は準備中です。
+        BESSONは自社サイトから直接お求めいただけます。
       </p>
 
       {cats.map((c) => (
@@ -33,7 +30,16 @@ const AMAZON_STORE_URL = 'https://www.amazon.co.jp/stores/BESSON';
                   <td><a href={`/products/${p.id}`}>BESSON {p.data.model}</a></td>
                   <td>{p.data.bottles}本</td>
                   <td>{p.data.price}</td>
-                  <td><a class="btn btn--outline" href={AMAZON_STORE_URL} target="_blank" rel="noopener">Amazonで見る</a></td>
+                  <td>
+                    <button
+                      class="btn btn--outline shop__buy"
+                      data-slug={p.id}
+                      data-model={p.data.model}
+                      data-price={p.data.price}
+                    >
+                      カートに追加
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -44,6 +50,18 @@ const AMAZON_STORE_URL = 'https://www.amazon.co.jp/stores/BESSON';
   </section>
 </BaseLayout>
 
+<script type="module">
+  import { addToCart } from '../lib/cart';
+
+  document.querySelectorAll('.shop__buy').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      addToCart({ slug: btn.dataset.slug, model: btn.dataset.model, price: btn.dataset.price });
+      btn.textContent = '追加しました';
+      setTimeout(() => (btn.textContent = 'カートに追加'), 1200);
+    });
+  });
+</script>
+
 <style>
   .shop h1 { margin-bottom: 1rem; }
   .shop__lead { color: var(--gray-dark); margin-bottom: 2.5rem; }
@@ -52,4 +70,5 @@ const AMAZON_STORE_URL = 'https://www.amazon.co.jp/stores/BESSON';
   .shop__table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
   .shop__table td { padding: 0.7rem 0.5rem; border-bottom: 1px solid var(--stone); vertical-align: middle; }
   .shop__table a:not(.btn) { text-decoration: underline; }
+  .shop__buy { font-size: 0.75rem; padding: 0.5rem 0.9rem; white-space: nowrap; }
 </style>

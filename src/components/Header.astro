@@ -10,9 +10,14 @@ const navItems = navOrder.map((k) => CATEGORIES.find((c) => c.key === k)!);
 <header class="site-header">
   <div class="site-header__bar container">
     <a href="/" class="logo">BESSON</a>
-    <button id="hamburger" class="hamburger" aria-label="メニューを開く" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="site-header__actions">
+      <a href="/cart" class="cart-link" aria-label="カート">
+        Cart<span id="cart-count" class="cart-link__count" hidden>0</span>
+      </a>
+      <button id="hamburger" class="hamburger" aria-label="メニューを開く" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
   <nav id="navDrawer" class="nav-drawer">
     <p class="nav-drawer__intro">ワインセラー、5つの空間から選ぶ。</p>
@@ -54,6 +59,32 @@ const navItems = navOrder.map((k) => CATEGORIES.find((c) => c.key === k)!);
     font-weight: 600;
     letter-spacing: 0.12em;
     color: var(--black);
+  }
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  .cart-link {
+    position: relative;
+    font-family: var(--font-en);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    color: var(--black);
+  }
+  .cart-link__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.1rem;
+    height: 1.1rem;
+    padding: 0 0.3rem;
+    margin-left: 0.3rem;
+    background: var(--black);
+    color: var(--white);
+    border-radius: 999px;
+    font-size: 0.65rem;
+    font-family: var(--font-ja);
   }
   .hamburger {
     background: none;
@@ -129,4 +160,19 @@ const navItems = navOrder.map((k) => CATEGORIES.find((c) => c.key === k)!);
     drawer?.classList.toggle('open');
     hbg.setAttribute('aria-expanded', String(isOpen));
   });
+</script>
+
+<script type="module">
+  import { getCart, cartCount } from '../lib/cart';
+
+  function renderBadge() {
+    const el = document.getElementById('cart-count');
+    if (!el) return;
+    const count = cartCount(getCart());
+    el.textContent = String(count);
+    el.hidden = count === 0;
+  }
+
+  renderBadge();
+  window.addEventListener('besson:cart-updated', renderBadge);
 </script>

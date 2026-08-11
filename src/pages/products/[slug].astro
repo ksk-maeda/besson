@@ -115,12 +115,48 @@ const faqJsonLd =
       )}
 
       <div class="product__cta">
-        <a href="/shop" class="btn btn--primary btn--large">手に入れる</a>
-        <a href={`/${p.category}`} class="btn btn--outline">{p.categoryLabel} の他のモデルを見る</a>
+        <button
+          id="buy-now"
+          class="btn btn--primary btn--large"
+          data-slug={entry.id}
+          data-model={p.model}
+          data-price={p.price}
+        >
+          今すぐ購入
+        </button>
+        <button
+          id="add-to-cart"
+          class="btn btn--outline"
+          data-slug={entry.id}
+          data-model={p.model}
+          data-price={p.price}
+        >
+          カートに追加
+        </button>
+        <a href={`/${p.category}`} class="product__cta-link">{p.categoryLabel} の他のモデルを見る</a>
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<script type="module">
+  import { addToCart } from '../../lib/cart';
+
+  function itemFromButton(btn) {
+    return { slug: btn.dataset.slug, model: btn.dataset.model, price: btn.dataset.price };
+  }
+
+  document.getElementById('add-to-cart')?.addEventListener('click', (e) => {
+    addToCart(itemFromButton(e.currentTarget));
+    e.currentTarget.textContent = '追加しました';
+    setTimeout(() => (e.currentTarget.textContent = 'カートに追加'), 1200);
+  });
+
+  document.getElementById('buy-now')?.addEventListener('click', (e) => {
+    addToCart(itemFromButton(e.currentTarget));
+    window.location.href = '/checkout';
+  });
+</script>
 
 <style>
   .breadcrumb {
@@ -162,4 +198,6 @@ const faqJsonLd =
     max-width: 480px; margin: 3rem auto 0;
     display: flex; flex-direction: column; gap: 0.75rem; align-items: center;
   }
+  .product__cta button { width: 100%; max-width: 320px; cursor: pointer; }
+  .product__cta-link { font-size: 0.8rem; text-decoration: underline; color: var(--gray-dark); margin-top: 0.5rem; }
 </style>

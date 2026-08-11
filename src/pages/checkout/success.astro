@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="ご注文ありがとうございます" description="BESSONのご注文が完了しました。">
+  <section class="section success">
+    <div class="container success__inner">
+      <p class="section-label">Thank You</p>
+      <h1>ご注文ありがとうございます。</h1>
+      <p class="success__lead">
+        ご注文を受け付けました。確認メールをお送りしています。発送に関するご連絡は追ってお知らせします。
+      </p>
+      <a href="/" class="btn btn--outline">トップへ戻る</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script type="module">
+  import { clearCart } from '../../lib/cart';
+  clearCart();
+</script>
+
+<style>
+  .success__inner { max-width: 480px; text-align: center; }
+  .success h1 { margin: 1rem 0; font-family: var(--font-ja-serif); font-size: 1.4rem; }
+  .success__lead { color: var(--gray-dark); margin-bottom: 2rem; }
+</style>

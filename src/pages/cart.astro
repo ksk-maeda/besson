@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="カート" description="BESSONのご注文内容確認ページです。">
+  <section class="section cart-page">
+    <div class="container cart-page__inner">
+      <h1>カート</h1>
+      <div id="cart-items"></div>
+      <div id="cart-total" class="cart-page__total"></div>
+      <a id="checkout-link" href="/checkout" class="btn btn--primary btn--large">レジに進む</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script type="module">
+  import { getCart, updateQty, removeFromCart } from '../lib/cart';
+
+  function priceToNumber(price) {
+    return Number(price.replace(/[^0-9]/g, '')) || 0;
+  }
+
+  function render() {
+    const items = getCart();
+    const itemsEl = document.getElementById('cart-items');
+    const totalEl = document.getElementById('cart-total');
+    const checkoutLink = document.getElementById('checkout-link');
+
+    if (items.length === 0) {
+      itemsEl.innerHTML = '<p class="cart-page__empty">カートに商品がありません。<a href="/shop">Shopを見る</a></p>';
+      totalEl.textContent = '';
+      checkoutLink.style.display = 'none';
+      return;
+    }
+
+    checkoutLink.style.display = '';
+    itemsEl.innerHTML = items
+      .map(
+        (i) => `
+      <div class="cart-row" data-slug="${i.slug}">
+        <div class="cart-row__info">
+          <p class="cart-row__model">BESSON ${i.model}</p>
+          <p class="cart-row__price">${i.price}</p>
+        </div>
+        <div class="cart-row__controls">
+          <input type="number" min="1" max="10" value="${i.qty}" class="cart-row__qty" data-slug="${i.slug}" />
+          <button class="cart-row__remove" data-slug="${i.slug}">削除</button>
+        </div>
+      </div>`
+      )
+      .join('');
+
+    const total = items.reduce((sum, i) => sum + priceToNumber(i.price) * i.qty, 0);
+    totalEl.textContent = `合計 ¥${total.toLocaleString()}（税込・送料別）`;
+
+    itemsEl.querySelectorAll('.cart-row__qty').forEach((el) => {
+      el.addEventListener('change', (e) => {
+        updateQty(e.target.dataset.slug, Number(e.target.value));
+        render();
+      });
+    });
+    itemsEl.querySelectorAll('.cart-row__remove').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        removeFromCart(e.target.dataset.slug);
+        render();
+      });
+    });
+  }
+
+  render();
+  window.addEventListener('besson:cart-updated', render);
+</script>
+
+<style>
+  .cart-page__inner { max-width: 640px; }
+  .cart-page h1 { margin-bottom: 2rem; }
+  .cart-page__empty { color: var(--gray-dark); }
+  .cart-page__empty a { text-decoration: underline; }
+  .cart-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--stone);
+  }
+  .cart-row__model { font-family: var(--font-en); margin-bottom: 0.25rem; }
+  .cart-row__price { font-size: 0.85rem; color: var(--gray-readable); }
+  .cart-row__controls { display: flex; align-items: center; gap: 0.75rem; }
+  .cart-row__qty { width: 3.5rem; padding: 0.4rem; border: 1px solid var(--gray-lt); }
+  .cart-row__remove {
+    background: none; border: none; text-decoration: underline;
+    font-size: 0.8rem; color: var(--gray-dark); cursor: pointer;
+  }
+  .cart-page__total {
+    text-align: right;
+    font-family: var(--font-en);
+    font-size: 1.1rem;
+    margin: 1.5rem 0;
+  }
+  #checkout-link { display: block; text-align: center; }
+</style>

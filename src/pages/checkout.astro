@@ -1,0 +1,145 @@
+---
+export const prerender = false;
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const publishableKey = import.meta.env.PUBLIC_STRIPE_PUBLISHABLE_KEY;
+---
+
+<BaseLayout title="ご購入手続き" description="BESSON、お支払い情報の入力ページです。">
+  <section class="section checkout">
+    <div class="container checkout__inner">
+      <h1>ご購入手続き</h1>
+
+      {!publishableKey && (
+        <p class="checkout__notice">
+          決済機能は現在準備中です（Stripeの設定が未完了）。しばらくお待ちいただくか、
+          お急ぎの場合は<a href="/contact">お問い合わせ</a>ください。
+        </p>
+      )}
+
+      <div id="cart-summary" class="checkout__summary"></div>
+
+      {publishableKey && (
+        <form id="checkout-form" class="checkout__form">
+          <label>
+            メールアドレス
+            <input type="email" id="email" required />
+          </label>
+          <label>
+            お名前
+            <input type="text" id="name" required />
+          </label>
+          <label>
+            お届け先住所
+            <textarea id="address" rows="3" required></textarea>
+          </label>
+
+          <div id="payment-element" class="checkout__payment-element"></div>
+
+          <p id="payment-message" class="checkout__message" hidden></p>
+
+          <button id="submit-button" type="submit" class="btn btn--primary btn--large" disabled>
+            支払う
+          </button>
+        </form>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+{publishableKey && (
+  <script src="https://js.stripe.com/v3/"></script>
+  <script type="module" define:vars={{ publishableKey }}>
+    import { getCart } from '../lib/cart';
+
+    const cart = getCart();
+    const summaryEl = document.getElementById('cart-summary');
+    const form = document.getElementById('checkout-form');
+    const submitButton = document.getElementById('submit-button');
+    const messageEl = document.getElementById('payment-message');
+
+    if (cart.length === 0) {
+      summaryEl.innerHTML = '<p>カートが空です。<a href="/shop">Shopへ戻る</a></p>';
+      form?.remove();
+    } else {
+      summaryEl.innerHTML =
+        '<ul>' +
+        cart.map((i) => `<li>${i.model} × ${i.qty}（${i.price}）</li>`).join('') +
+        '</ul>';
+
+      const stripe = Stripe(publishableKey);
+      let elements;
+
+      fetch('/api/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cart.map((i) => ({ slug: i.slug, qty: i.qty })) }),
+      })
+        .then((r) => r.json())
+        .then(({ clientSecret, error }) => {
+          if (error || !clientSecret) {
+            messageEl.hidden = false;
+            messageEl.textContent = error || '決済の準備に失敗しました。';
+            return;
+          }
+          elements = stripe.elements({ clientSecret });
+          const paymentElement = elements.create('payment');
+          paymentElement.mount('#payment-element');
+          submitButton.disabled = false;
+        });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        submitButton.disabled = true;
+
+        const { error } = await stripe.confirmPayment({
+          elements,
+          confirmParams: {
+            return_url: `${window.location.origin}/checkout/success`,
+            receipt_email: document.getElementById('email').value,
+            payment_method_data: {
+              billing_details: {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                address: { line1: document.getElementById('address').value },
+              },
+            },
+          },
+        });
+
+        if (error) {
+          messageEl.hidden = false;
+          messageEl.textContent = error.message ?? '決済に失敗しました。もう一度お試しください。';
+          submitButton.disabled = false;
+        }
+        // 成功時はStripeがreturn_urlへ自動遷移する
+      });
+    }
+  </script>
+)}
+
+<style>
+  .checkout__inner { max-width: 560px; }
+  .checkout h1 { margin-bottom: 1.5rem; }
+  .checkout__notice {
+    background: var(--cream);
+    padding: 1rem;
+    font-size: 0.85rem;
+    color: var(--gray-dark);
+    margin-bottom: 1.5rem;
+  }
+  .checkout__summary ul { list-style: none; padding: 0; margin: 0 0 2rem; }
+  .checkout__summary li { padding: 0.6rem 0; border-bottom: 1px solid var(--stone); font-size: 0.9rem; }
+  .checkout__form { display: flex; flex-direction: column; gap: 1.25rem; }
+  .checkout__form label { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.85rem; }
+  .checkout__form input,
+  .checkout__form textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--gray-lt);
+    background: var(--white);
+    font-family: var(--font-ja);
+    font-size: 0.9rem;
+  }
+  .checkout__payment-element { padding: 1rem 0; }
+  .checkout__message { font-size: 0.85rem; color: var(--wine); }
+</style>

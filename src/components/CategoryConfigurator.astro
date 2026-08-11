@@ -69,7 +69,24 @@ const sorted = [...products].sort((a, b) => a.bottles - b.bottles);
       ))}
 
       <div class="configurator__cta">
-        <a href="/shop" class="btn btn--primary">手に入れる</a>
+        <button
+          type="button"
+          class="btn btn--primary configurator__buy-now"
+          data-slug={p.slug}
+          data-model={p.model}
+          data-price={p.price}
+        >
+          今すぐ購入
+        </button>
+        <button
+          type="button"
+          class="btn btn--outline configurator__add-to-cart"
+          data-slug={p.slug}
+          data-model={p.model}
+          data-price={p.price}
+        >
+          カートに追加
+        </button>
       </div>
     </div>
   ))}
@@ -140,10 +157,21 @@ const sorted = [...products].sort((a, b) => a.bottles - b.bottles);
     margin-bottom: 0.5rem;
   }
   .configurator__feature-body { font-size: 0.9rem; color: var(--gray-dark); }
-  .configurator__cta { text-align: center; padding-top: 1rem; }
+  .configurator__cta {
+    text-align: center; padding-top: 1rem;
+    display: flex; flex-direction: column; gap: 0.75rem;
+    align-items: center; max-width: 320px; margin: 0 auto;
+  }
+  .configurator__cta button { width: 100%; cursor: pointer; }
 </style>
 
 <script>
+  import { addToCart } from '../lib/cart';
+
+  function itemFromButton(btn: HTMLElement) {
+    return { slug: btn.dataset.slug!, model: btn.dataset.model!, price: btn.dataset.price! };
+  }
+
   document.querySelectorAll<HTMLElement>('[data-configurator]').forEach((root) => {
     const btns = root.querySelectorAll<HTMLButtonElement>('.configurator__btn');
     const panels = root.querySelectorAll<HTMLElement>('.configurator__panel');
@@ -154,6 +182,22 @@ const sorted = [...products].sort((a, b) => a.bottles - b.bottles);
         panels.forEach((p) => {
           p.hidden = p.dataset.panel !== target;
         });
+      });
+    });
+
+    root.querySelectorAll<HTMLButtonElement>('.configurator__add-to-cart').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        addToCart(itemFromButton(btn));
+        const original = btn.textContent;
+        btn.textContent = '追加しました';
+        setTimeout(() => (btn.textContent = original), 1200);
+      });
+    });
+
+    root.querySelectorAll<HTMLButtonElement>('.configurator__buy-now').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        addToCart(itemFromButton(btn));
+        window.location.href = '/checkout';
       });
     });
   });

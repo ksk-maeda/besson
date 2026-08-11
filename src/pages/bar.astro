@@ -72,10 +72,34 @@ const jsonLd = {
 
   <section class="section">
     <div class="container bar-cta">
-      <a href="/shop" class="btn btn--primary btn--large">手に入れる</a>
+      <button id="buy-now" class="btn btn--primary btn--large" data-slug="c7" data-model={p.model} data-price={p.price}>
+        今すぐ購入
+      </button>
+      <button id="add-to-cart" class="btn btn--outline" data-slug="c7" data-model={p.model} data-price={p.price}>
+        カートに追加
+      </button>
     </div>
   </section>
 </BaseLayout>
+
+<script type="module">
+  import { addToCart } from '../lib/cart';
+
+  function itemFromButton(btn) {
+    return { slug: btn.dataset.slug, model: btn.dataset.model, price: btn.dataset.price };
+  }
+
+  document.getElementById('add-to-cart')?.addEventListener('click', (e) => {
+    addToCart(itemFromButton(e.currentTarget));
+    e.currentTarget.textContent = '追加しました';
+    setTimeout(() => (e.currentTarget.textContent = 'カートに追加'), 1200);
+  });
+
+  document.getElementById('buy-now')?.addEventListener('click', () => {
+    addToCart(itemFromButton(document.getElementById('buy-now')));
+    window.location.href = '/checkout';
+  });
+</script>
 
 <style>
   .cat-hero { position: relative; }
@@ -103,5 +127,10 @@ const jsonLd = {
   .bar-feature__title { font-family: var(--font-en); font-size: 1.1rem; margin: 1rem 0 0.5rem; }
   .bar-feature__body { color: var(--gray-dark); }
 
-  .bar-cta { text-align: center; }
+  .bar-cta {
+    text-align: center;
+    display: flex; flex-direction: column; gap: 0.75rem;
+    align-items: center; max-width: 320px; margin: 0 auto;
+  }
+  .bar-cta button { width: 100%; cursor: pointer; }
 </style>
