@@ -47,28 +47,36 @@ const publishableKey = import.meta.env.PUBLIC_STRIPE_PUBLISHABLE_KEY;
   </section>
 </BaseLayout>
 
-{publishableKey && (
-  <script src="https://js.stripe.com/v3/"></script>
-  <script type="module" define:vars={{ publishableKey }}>
-    import { getCart } from '../lib/cart';
+<script is:inline src="https://js.stripe.com/v3/"></script>
 
-    const cart = getCart();
-    const summaryEl = document.getElementById('cart-summary');
-    const form = document.getElementById('checkout-form');
-    const submitButton = document.getElementById('submit-button');
-    const messageEl = document.getElementById('payment-message');
+<script>
+  import { getCart } from '../lib/cart';
 
-    if (cart.length === 0) {
-      summaryEl.innerHTML = '<p>カートが空です。<a href="/shop">Shopへ戻る</a></p>';
-      form?.remove();
-    } else {
-      summaryEl.innerHTML =
-        '<ul>' +
-        cart.map((i) => `<li>${i.model} × ${i.qty}（${i.price}）</li>`).join('') +
-        '</ul>';
+  declare const Stripe: any;
 
+  const publishableKey = import.meta.env.PUBLIC_STRIPE_PUBLISHABLE_KEY;
+  const cart = getCart();
+  const summaryEl = document.getElementById('cart-summary')!;
+  const form = document.getElementById('checkout-form') as HTMLFormElement | null;
+  const submitButton = document.getElementById('submit-button') as HTMLButtonElement | null;
+  const messageEl = document.getElementById('payment-message') as HTMLParagraphElement | null;
+
+  function showMessage(text: string) {
+    if (!messageEl) return;
+    messageEl.hidden = false;
+    messageEl.textContent = text;
+  }
+
+  if (cart.length === 0) {
+    summaryEl.innerHTML = '<p>カートが空です。<a href="/shop">Shopへ戻る</a></p>';
+    form?.remove();
+  } else {
+    summaryEl.innerHTML =
+      '<ul>' + cart.map((i) => `<li>${i.model} × ${i.qty}（${i.price}）</li>`).join('') + '</ul>';
+
+    if (publishableKey && form && submitButton) {
       const stripe = Stripe(publishableKey);
-      let elements;
+      let elements: any;
 
       fetch('/api/create-payment-intent', {
         method: 'POST',
@@ -78,45 +86,49 @@ const publishableKey = import.meta.env.PUBLIC_STRIPE_PUBLISHABLE_KEY;
         .then((r) => r.json())
         .then(({ clientSecret, error }) => {
           if (error || !clientSecret) {
-            messageEl.hidden = false;
-            messageEl.textContent = error || '決済の準備に失敗しました。';
+            showMessage(error || '決済の準備に失敗しました。時間をおいてお試しください。');
             return;
           }
-          elements = stripe.elements({ clientSecret });
+          elements = stripe.elements({ clientSecret, locale: 'ja' });
           const paymentElement = elements.create('payment');
           paymentElement.mount('#payment-element');
           submitButton.disabled = false;
-        });
+        })
+        .catch(() => showMessage('通信エラーが発生しました。時間をおいてお試しください。'));
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (!elements) return;
         submitButton.disabled = true;
+
+        const email = (document.getElementById('email') as HTMLInputElement).value;
+        const name = (document.getElementById('name') as HTMLInputElement).value;
+        const address = (document.getElementById('address') as HTMLTextAreaElement).value;
 
         const { error } = await stripe.confirmPayment({
           elements,
           confirmParams: {
             return_url: `${window.location.origin}/checkout/success`,
-            receipt_email: document.getElementById('email').value,
+            receipt_email: email,
             payment_method_data: {
               billing_details: {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                address: { line1: document.getElementById('address').value },
+                name,
+                email,
+                address: { line1: address },
               },
             },
           },
         });
 
         if (error) {
-          messageEl.hidden = false;
-          messageEl.textContent = error.message ?? '決済に失敗しました。もう一度お試しください。';
+          showMessage(error.message ?? '決済に失敗しました。もう一度お試しください。');
           submitButton.disabled = false;
         }
         // 成功時はStripeがreturn_urlへ自動遷移する
       });
     }
-  </script>
-)}
+  }
+</script>
 
 <style>
   .checkout__inner { max-width: 560px; }
