@@ -1,0 +1,165 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('products');
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const p = entry.data;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `BESSON ${p.model}`,
+  description: p.headline,
+  sku: p.sku ?? undefined,
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'JPY',
+    price: p.price.replace(/[^0-9]/g, ''),
+    availability: 'https://schema.org/InStock',
+  },
+};
+
+const faqJsonLd =
+  p.faq.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: p.faq.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      }
+    : null;
+---
+
+<BaseLayout
+  title={`BESSON ${p.model} — ${p.categoryLabel}`}
+  description={p.headline}
+  jsonLd={faqJsonLd ? [jsonLd, faqJsonLd] : jsonLd}
+>
+  <nav class="breadcrumb container">
+    <a href="/">Top</a> / <a href={`/${p.category}`}>{p.categoryLabel}</a> / {p.model}
+  </nav>
+
+  <section class="section product">
+    <div class="container">
+      <PhotoSlot ratio="3x4" label={`${p.model} メイン画像`} />
+
+      <div class="product__intro">
+        <p class="product__cat">{p.categoryLabel}</p>
+        <h1 class="product__model">BESSON {p.model}</h1>
+        <p class="product__price">{p.price}<span> 税込</span></p>
+        <p class="product__headline">{p.headline}</p>
+        {p.headlineIsDraft && (
+          <p class="product__draft-note">※このコピーはドラフトです。けいさんのレビュー・修正待ち。</p>
+        )}
+      </div>
+
+      {p.fitFor.length > 0 && (
+        <div class="product__block">
+          <p class="section-label">こんな方に</p>
+          <ul>{p.fitFor.map((f) => <li>{f}</li>)}</ul>
+        </div>
+      )}
+
+      {p.highlights.length > 0 && (
+        <div class="product__block">
+          <p class="section-label">このモデルについて</p>
+          {p.highlights.map((h) => (
+            <div class="product__highlight">
+              <p class="product__highlight-title">{h.title}</p>
+              <p>{h.body}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div class="product__block">
+        <p class="section-label">仕様</p>
+        <dl class="product__spec">
+          <div><dt>収納本数</dt><dd>{p.bottles}本</dd></div>
+          <div><dt>外寸（mm）</dt><dd>{p.dimensions}</dd></div>
+          <div><dt>重量</dt><dd>{p.weightKg}kg</dd></div>
+          <div><dt>温度設定範囲</dt><dd>{p.tempRange}</dd></div>
+          <div><dt>温度ゾーン</dt><dd>{p.tempZones}</dd></div>
+          <div><dt>加温機能</dt><dd>{p.heating ? 'あり' : 'なし'}</dd></div>
+          <div><dt>消費電力</dt><dd>{p.powerW}W</dd></div>
+          <div><dt>年間電気代目安</dt><dd>{p.annualCostYen}</dd></div>
+          <div><dt>棚の素材</dt><dd>{p.shelfMaterial}</dd></div>
+          <div><dt>扉の種類</dt><dd>{p.doorType}</dd></div>
+          <div><dt>庫内灯</dt><dd>{p.interiorLight ? 'あり' : 'なし'}</dd></div>
+          <div><dt>保証</dt><dd>{p.warrantyYears}年</dd></div>
+        </dl>
+      </div>
+
+      {p.faq.length > 0 && (
+        <div class="product__block">
+          <p class="section-label">よくある質問</p>
+          {p.faq.map((f) => (
+            <details class="product__faq">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      )}
+
+      <div class="product__cta">
+        <a href="/shop" class="btn btn--primary btn--large">手に入れる</a>
+        <a href={`/${p.category}`} class="btn btn--outline">{p.categoryLabel} の他のモデルを見る</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .breadcrumb {
+    padding: 1rem var(--px-lg);
+    font-size: 0.75rem;
+    color: var(--gray-mid);
+  }
+  .breadcrumb a { text-decoration: underline; }
+
+  .product__intro { text-align: center; margin: 2rem auto; max-width: 480px; }
+  .product__cat { font-family: var(--font-en); letter-spacing: 0.08em; color: var(--gold); margin-bottom: 0.4rem; }
+  .product__model { font-family: var(--font-en); font-size: 1.6rem; font-weight: 500; margin-bottom: 0.5rem; }
+  .product__price { font-family: var(--font-en); font-size: 1.3rem; margin-bottom: 1rem; }
+  .product__price span { font-size: 0.75rem; color: var(--gray-mid); margin-left: 0.4rem; }
+  .product__headline { font-family: var(--font-ja-serif); font-size: 1.05rem; }
+  .product__draft-note { font-size: 0.7rem; color: var(--wine); margin-top: 0.75rem; }
+
+  .product__block { max-width: 640px; margin: 2.5rem auto 0; }
+  .product__block ul { padding-left: 1.1rem; margin: 0; }
+  .product__block li { margin-bottom: 0.5rem; }
+
+  .product__highlight { margin-bottom: 1.5rem; }
+  .product__highlight-title { font-family: var(--font-en); font-size: 1rem; margin-bottom: 0.4rem; }
+
+  .product__spec { display: grid; gap: 0; margin: 0; }
+  .product__spec > div {
+    display: flex; justify-content: space-between;
+    padding: 0.7rem 0; border-bottom: 1px solid var(--stone);
+    font-size: 0.85rem;
+  }
+  .product__spec dt { color: var(--gray-mid); }
+  .product__spec dd { margin: 0; text-align: right; }
+
+  .product__faq { border-bottom: 1px solid var(--stone); padding: 0.8rem 0; }
+  .product__faq summary { cursor: pointer; font-size: 0.9rem; }
+  .product__faq p { margin-top: 0.6rem; font-size: 0.85rem; color: var(--gray-dark); }
+
+  .product__cta {
+    max-width: 480px; margin: 3rem auto 0;
+    display: flex; flex-direction: column; gap: 0.75rem; align-items: center;
+  }
+</style>

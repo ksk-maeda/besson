@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Contact" description="BESSONへのお問い合わせ。製品に関するご質問、Château（受注生産）のご相談はこちらから。">
+  <section class="section contact">
+    <div class="container contact__inner">
+      <h1>Contact</h1>
+      <p class="contact__lead">
+        製品に関するお問い合わせ、Château（受注生産）のご相談は、以下のフォームよりお送りください。内容を確認のうえ、担当者よりご連絡いたします。
+      </p>
+
+      <form class="contact__form" action="mailto:info@besson.jp" method="get">
+        <label>
+          お名前
+          <input type="text" name="name" required />
+        </label>
+        <label>
+          メールアドレス
+          <input type="email" name="email" required />
+        </label>
+        <label>
+          ご用件
+          <select name="subject" required>
+            <option value="">選択してください</option>
+            <option value="製品について">製品についてのご質問</option>
+            <option value="購入について">購入・お取り扱いについて</option>
+            <option value="Château（受注生産）のご相談">Château（受注生産）のご相談</option>
+            <option value="その他">その他</option>
+          </select>
+        </label>
+        <label>
+          お問い合わせ内容
+          <textarea name="body" rows="6" required></textarea>
+        </label>
+        <button type="submit" class="btn btn--primary">送信する</button>
+      </form>
+
+      <p class="contact__note">
+        ※現在はメール送信フォームです。折り返しまでにお時間をいただく場合があります。
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact__inner { max-width: 560px; }
+  .contact h1 { margin-bottom: 1rem; }
+  .contact__lead { color: var(--gray-dark); margin-bottom: 2rem; }
+  .contact__form { display: flex; flex-direction: column; gap: 1.25rem; }
+  .contact__form label { display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.85rem; }
+  .contact__form input,
+  .contact__form select,
+  .contact__form textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--gray-lt);
+    background: var(--white);
+    font-family: var(--font-ja);
+    font-size: 0.9rem;
+  }
+  .contact__note { font-size: 0.75rem; color: var(--gray-mid); margin-top: 1.5rem; }
+</style>

@@ -1,0 +1,80 @@
+---
+import { CATEGORIES } from '../lib/categories';
+const chateau = CATEGORIES.find((c) => c.key === 'chateau')!;
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <span class="footer-logo">BESSON</span>
+
+    <div class="footer-chateau">
+      <p class="footer-chateau__label">{chateau.name}</p>
+      <p class="footer-chateau__copy">{chateau.copy}</p>
+      <p class="footer-chateau__note">
+        建築一体・完全受注のオーダーメイドセラー。ご相談は<a href="/contact">お問い合わせ</a>より承っています。
+      </p>
+    </div>
+
+    <ul class="footer-links">
+      <li><a href="/story">Our Story</a></li>
+      <li><a href="/shop">Shop</a></li>
+      <li><a href="/faq">FAQ</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/tokusho">特定商取引法に基づく表記</a></li>
+      <li><a href="/privacy">プライバシーポリシー</a></li>
+    </ul>
+    <p class="footer-copy">© {new Date().getFullYear()} BESSON</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--black);
+    color: var(--off-white);
+    padding: clamp(2.5rem, 6vw, 4rem) 0 2rem;
+  }
+  .footer-logo {
+    display: block;
+    font-family: var(--font-en);
+    font-size: 1.1rem;
+    letter-spacing: 0.14em;
+    margin-bottom: 2rem;
+  }
+  .footer-chateau {
+    border-top: 1px solid rgba(255,255,255,0.15);
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    padding: 1.5rem 0;
+    margin-bottom: 2rem;
+  }
+  .footer-chateau__label {
+    font-family: var(--font-en);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: var(--gold-mid);
+    margin-bottom: 0.4rem;
+  }
+  .footer-chateau__copy {
+    font-family: var(--font-ja-serif);
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+  }
+  .footer-chateau__note {
+    font-size: 0.8rem;
+    color: var(--gray-lt);
+  }
+  .footer-chateau__note a { text-decoration: underline; }
+  .footer-links {
+    list-style: none;
+    margin: 0 0 2rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    font-size: 0.75rem;
+  }
+  .footer-links a { color: var(--gray-lt); }
+  .footer-copy {
+    font-size: 0.7rem;
+    color: var(--gray-mid);
+  }
+</style>

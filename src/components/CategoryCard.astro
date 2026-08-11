@@ -1,0 +1,34 @@
+---
+import PhotoSlot from './PhotoSlot.astro';
+import type { CategoryInfo } from '../lib/categories';
+
+interface Props { category: CategoryInfo; href: string }
+const { category, href } = Astro.props;
+---
+
+<a href={href} class="cat-card">
+  <PhotoSlot ratio="3x4" label={category.name} />
+  <div class="cat-card__body">
+    <p class="cat-card__name">{category.name}</p>
+    <p class="cat-card__copy">{category.copy}</p>
+  </div>
+</a>
+
+<style>
+  .cat-card {
+    display: block;
+    background: var(--white);
+  }
+  .cat-card__body { padding: 1rem 0.25rem; }
+  .cat-card__name {
+    font-family: var(--font-en);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 0.35rem;
+  }
+  .cat-card__copy {
+    font-family: var(--font-ja-serif);
+    font-size: 1rem;
+  }
+</style>

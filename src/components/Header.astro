@@ -1,0 +1,102 @@
+---
+import { CATEGORIES } from '../lib/categories';
+// 物語順ナビ。モバイル最優先＝ロゴ＋ハンバーガーのみ（サイトガイド.md準拠）
+const navOrder = ['bistro', 'lounge', 'bar', 'grand-maison'];
+const navItems = navOrder.map((k) => CATEGORIES.find((c) => c.key === k)!);
+---
+
+<header class="site-header">
+  <div class="site-header__bar container">
+    <a href="/" class="logo">BESSON</a>
+    <button id="hamburger" class="hamburger" aria-label="メニューを開く" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav id="navDrawer" class="nav-drawer">
+    <ul>
+      {navItems.map((c) => (
+        <li><a href={`/${c.slug}`}>{c.name}</a></li>
+      ))}
+      <li><a href="/story">Our Story</a></li>
+      <li><a href="/shop">Shop</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/faq">FAQ</a></li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(249, 248, 246, 0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--stone);
+  }
+  .site-header__bar {
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-family: var(--font-en);
+    font-size: 1.15rem;
+    letter-spacing: 0.12em;
+  }
+  .hamburger {
+    background: none;
+    border: none;
+    width: 28px;
+    height: 20px;
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+  }
+  .hamburger span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--black);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .hamburger span:nth-child(1) { top: 2px; }
+  .hamburger span:nth-child(2) { top: 10px; }
+  .hamburger span:nth-child(3) { top: 18px; }
+  .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  .nav-drawer {
+    max-height: 0;
+    overflow: hidden;
+    background: var(--off-white);
+    border-bottom: 1px solid var(--stone);
+    transition: max-height 0.35s ease;
+  }
+  .nav-drawer.open { max-height: 400px; }
+  .nav-drawer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem var(--px-lg) 1.5rem;
+  }
+  .nav-drawer li { border-bottom: 1px solid var(--stone); }
+  .nav-drawer a {
+    display: block;
+    padding: 0.9rem 0;
+    font-family: var(--font-en);
+    letter-spacing: 0.04em;
+  }
+</style>
+
+<script>
+  const hbg = document.getElementById('hamburger');
+  const drawer = document.getElementById('navDrawer');
+  hbg?.addEventListener('click', () => {
+    const isOpen = hbg.classList.toggle('open');
+    drawer?.classList.toggle('open');
+    hbg.setAttribute('aria-expanded', String(isOpen));
+  });
+</script>

@@ -1,0 +1,89 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CATEGORIES, TAGLINE, WHY, BRAND_STATEMENT } from '../lib/categories';
+
+const products = await getCollection('products');
+const storyOrder = ['bistro', 'lounge', 'bar', 'grand-maison', 'chateau'];
+const cats = storyOrder.map((k) => CATEGORIES.find((c) => c.key === k)!);
+
+function productsFor(catKey: string) {
+  return products.filter((p) => p.data.category === catKey).sort((a, b) => a.data.bottles - b.data.bottles);
+}
+---
+
+<BaseLayout
+  title="Our Story"
+  description="BESSONというブランドが何を作っているか。パーパス・ワインの文化・全11モデルのラインナップを、ここに記す。"
+>
+  <section class="section story">
+    <div class="container story__inner">
+      <h1 class="story__title">Our Story</h1>
+      <p class="story__lead">{BRAND_STATEMENT}</p>
+
+      <h2>私たちの目指すもの</h2>
+      <p>{WHY}</p>
+      <p>
+        お客さんの気持ちになりきって、ストレスのないハッピーな暮らしを提案する。BESSONが提案するのは製品ではなく、ワインのある空間そのものです。目指す世界観は、高級ホテルの空間が持つ静けさと質。近づかない世界観は、価格やスペックだけを訴求する「お得感」の表現です。
+      </p>
+      <p class="story__tagline">{TAGLINE}</p>
+
+      <h2>創業者の物語</h2>
+      <p>
+        BESSONの設計思想の根にあるのは、バウハウスとスカンジナビアデザインへの傾倒です。「Less is more」ではなく「Less, but meaningful」——少ないが意味ある要素で構成し、タイムレスな洗練をつくる。設計者自身が高級ホテルと旅を愛し、その実体験からカテゴリーの名づけが生まれています。中国OEMの標準的なつくりに満足せず、直せる誠実さを大切にする姿勢が、BESSONのものづくりの基準になっています。
+      </p>
+
+      <h2>ワイン文化の物語</h2>
+      <p>
+        ワインは、時間・熟成・産地・作り手・継承という、何百年も続く本物の伝統の上に成り立つ飲み物です。BESSONは、その文化を保管する「器」を作る側として、この物語に参加しています。ワインセラーは単なる保冷庫ではなく、開ける日を待つ時間そのものを豊かにする道具です。
+      </p>
+
+      <h2>顧客自身の物語</h2>
+      <p>
+        BESSONのコレクションは、その人自身の歴史になります。最初の一本を選ぶ Bistro の時間から、集めてきた年月を誰かに手渡す Grand Maison の時間まで——ワインと生きる人生には、格上げの階段があります。
+      </p>
+
+      <h2>5つの空間</h2>
+      {cats.map((c) => (
+        <div class="story__category">
+          <h3>{c.name}——{c.worldview}</h3>
+          <p>{c.copy}</p>
+          {c.models.length > 0 && (
+            <ul class="story__model-list">
+              {productsFor(c.key).map((p) => (
+                <li>
+                  <a href={`/products/${p.id}`}>BESSON {p.data.model}</a>
+                  ——収納{p.data.bottles}本、{p.data.dimensions}mm、{p.data.price}（税込）
+                </li>
+              ))}
+            </ul>
+          )}
+          {c.key === 'chateau' && (
+            <p>
+              建築一体・完全受注のオーダーメイドセラーです。まだ商品化はしておらず、住まいにカーヴを持ちたいという方向けに、企画段階からご相談を受け付けています。ご相談は<a href="/contact">お問い合わせ</a>より承っています。
+            </p>
+          )}
+        </div>
+      ))}
+
+      <h2>品質について</h2>
+      <p>
+        全モデルはコンプレッサー式を採用し、外気温に左右されにくい安定した温度管理を実現しています。国際的な安全規格・環境規格に適合した製造パートナーと協業し、品質基準を維持しています。保証期間・アフターサポートの詳細は<a href="/faq">よくある質問</a>をご確認ください。
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .story__inner { max-width: 720px; }
+  .story__title { font-size: 2rem; margin-bottom: 1.5rem; }
+  .story__lead { font-family: var(--font-ja-serif); font-size: 1.1rem; margin-bottom: 2rem; }
+  .story h2 { font-size: 1.15rem; margin: 2.5rem 0 1rem; }
+  .story h3 { font-family: var(--font-ja-serif); font-size: 1.1rem; margin-bottom: 0.5rem; }
+  .story p { margin-bottom: 1rem; color: var(--gray-dark); }
+  .story__tagline { font-family: var(--font-ja-serif); font-size: 1.3rem; color: var(--black); margin: 2rem 0; }
+  .story__category { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--stone); }
+  .story__model-list { padding-left: 1.1rem; font-size: 0.9rem; }
+  .story__model-list li { margin-bottom: 0.4rem; }
+  .story a { text-decoration: underline; }
+</style>

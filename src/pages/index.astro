@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import { CATEGORIES, TAGLINE } from '../lib/categories';
+
+const storyOrder = ['bistro', 'lounge', 'bar', 'grand-maison'];
+const cards = storyOrder.map((k) => CATEGORIES.find((c) => c.key === k)!);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'BESSON',
+  description: 'ワインのある上質な空間をデザインするライフスタイルブランド。',
+  url: 'https://besson.jp',
+};
+---
+
+<BaseLayout
+  title="「まだ知らない喜びが、ある。」ワインセラー BESSON"
+  description="BESSONは、ワインのある上質な空間をデザインするライフスタイルブランド。Bistro・The Lounge・The Bar・Grand Maison・Château、5つの空間から選ぶワインセラー。"
+  jsonLd={jsonLd}
+>
+  <!-- ZONE1: 感じる -->
+  <section class="hero">
+    <PhotoSlot ratio="tall" label="BESSON ヒーロービジュアル" class="hero__photo" />
+    <div class="hero__overlay container">
+      <p class="tagline hero__tagline">{TAGLINE}</p>
+    </div>
+  </section>
+
+  <!-- ZONE2: 共鳴する -->
+  <section class="section resonance">
+    <div class="container resonance__inner">
+      <p class="resonance__text">
+        BESSONは、冷やす家電ではない。<br />
+        ワインのある空間を、暮らしに設計する。
+      </p>
+    </div>
+  </section>
+
+  <!-- ZONE3: 想像する -->
+  <section class="section gallery">
+    <div class="container gallery__grid">
+      <PhotoSlot ratio="3x4" label="薄暗い部屋、ガラス越しに並ぶボトル" />
+      <PhotoSlot ratio="3x4" label="木の棚に当たる光と影" />
+      <PhotoSlot ratio="3x4" label="結露したグラスと夜景" />
+    </div>
+  </section>
+
+  <!-- カテゴリー入り口（物語順） -->
+  <section class="section categories">
+    <div class="container">
+      <p class="section-label">Categories</p>
+      <div class="categories__grid">
+        {cards.map((c) => (
+          <CategoryCard category={c} href={`/${c.slug}`} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ZONE6: つながる -->
+  <section class="section signup">
+    <div class="container signup__inner">
+      <p class="signup__lead">豊かな暮らしを意図的に設計する人たちへ</p>
+      <form class="signup__form" action="mailto:info@besson.jp" method="get">
+        <input type="email" name="email" placeholder="メールアドレス" required aria-label="メールアドレス" />
+        <button type="submit" class="btn btn--primary">登録する</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ZONE7: 手に入れる -->
+  <section class="section cta">
+    <div class="container cta__inner">
+      <a href="/shop" class="btn btn--primary btn--large">手に入れる</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero { position: relative; }
+  .hero__photo { width: 100%; }
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: clamp(2rem, 6vw, 4rem);
+  }
+  .hero__tagline { color: var(--white); text-shadow: 0 2px 12px rgba(0,0,0,0.35); }
+
+  .resonance__inner { text-align: center; }
+  .resonance__text {
+    font-family: var(--font-ja-serif);
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    line-height: 2;
+  }
+
+  .gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  @media (max-width: 640px) {
+    .gallery__grid { grid-template-columns: 1fr; }
+  }
+
+  .categories__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  @media (max-width: 640px) {
+    .categories__grid { grid-template-columns: 1fr; }
+  }
+
+  .signup__inner { text-align: center; }
+  .signup__lead { font-family: var(--font-ja-serif); font-size: 1.05rem; margin-bottom: 1.5rem; }
+  .signup__form { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+  .signup__form input {
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--gray-lt);
+    background: var(--white);
+    font-family: var(--font-ja);
+    min-width: 240px;
+  }
+
+  .cta__inner { text-align: center; }
+  .btn--large { padding: 1.1rem 3rem; font-size: 0.9rem; }
+</style>

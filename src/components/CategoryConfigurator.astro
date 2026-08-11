@@ -1,0 +1,160 @@
+---
+import PhotoSlot from './PhotoSlot.astro';
+
+interface Product {
+  slug: string;
+  model: string;
+  bottles: number;
+  price: string;
+  dimensions: string;
+  weightKg: number;
+  tempZones: string;
+  headline: string;
+  fitFor: string[];
+  highlights: { title: string; body: string }[];
+}
+
+interface Props { products: Product[] }
+const { products } = Astro.props;
+const sorted = [...products].sort((a, b) => a.bottles - b.bottles);
+---
+
+<div class="configurator" data-configurator>
+  <div class="configurator__selector" role="tablist" aria-label="本数を選ぶ">
+    {sorted.map((p, i) => (
+      <button
+        type="button"
+        class="configurator__btn"
+        data-target={p.slug}
+        aria-pressed={i === 0 ? 'true' : 'false'}
+      >
+        {p.bottles}本
+      </button>
+    ))}
+  </div>
+
+  {sorted.map((p, i) => (
+    <div class="configurator__panel" data-panel={p.slug} hidden={i !== 0}>
+      <PhotoSlot ratio="3x4" label={`${p.model} メイン画像`} />
+
+      <div class="configurator__info">
+        <p class="configurator__model">BESSON {p.model}</p>
+        <p class="configurator__price">{p.price}<span> 税込</span></p>
+        <p class="configurator__headline">{p.headline}</p>
+        <ul class="configurator__specs">
+          <li>{p.dimensions} mm</li>
+          <li>重量 {p.weightKg}kg</li>
+          <li>{p.tempZones}</li>
+        </ul>
+        <a href={`/products/${p.slug}`} class="btn btn--outline">{p.model} の詳細を見る</a>
+      </div>
+
+      {p.fitFor.length > 0 && (
+        <div class="configurator__fitfor">
+          <p class="section-label">こんな方に</p>
+          <ul>
+            {p.fitFor.map((f) => <li>{f}</li>)}
+          </ul>
+        </div>
+      )}
+
+      {p.highlights.map((h) => (
+        <div class="configurator__feature">
+          <PhotoSlot ratio="16x9" label={h.title} />
+          <div class="configurator__feature-text">
+            <p class="configurator__feature-title">{h.title}</p>
+            <p class="configurator__feature-body">{h.body}</p>
+          </div>
+        </div>
+      ))}
+
+      <div class="configurator__cta">
+        <a href="/shop" class="btn btn--primary">手に入れる</a>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .configurator__selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+  .configurator__btn {
+    padding: 0.6rem 1.1rem;
+    border: 1px solid var(--gray-lt);
+    background: var(--white);
+    font-family: var(--font-en);
+    font-size: 0.85rem;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .configurator__btn[aria-pressed='true'] {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+  }
+  .configurator__panel { display: grid; gap: 2.5rem; }
+  .configurator__info { text-align: center; max-width: 480px; margin: 0 auto; }
+  .configurator__model {
+    font-family: var(--font-en);
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+  .configurator__price {
+    font-family: var(--font-en);
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+  .configurator__price span { font-size: 0.75rem; color: var(--gray-mid); margin-left: 0.4rem; }
+  .configurator__headline {
+    font-family: var(--font-ja-serif);
+    font-size: 1.05rem;
+    margin-bottom: 1.25rem;
+  }
+  .configurator__specs {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    font-size: 0.8rem;
+    color: var(--gray-dark);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .configurator__fitfor { max-width: 480px; margin: 0 auto; text-align: left; }
+  .configurator__fitfor ul { padding-left: 1.1rem; margin: 0; font-size: 0.9rem; }
+  .configurator__fitfor li { margin-bottom: 0.4rem; }
+  .configurator__feature {
+    display: grid;
+    gap: 1rem;
+  }
+  .configurator__feature-title {
+    font-family: var(--font-en);
+    font-size: 1rem;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.5rem;
+  }
+  .configurator__feature-body { font-size: 0.9rem; color: var(--gray-dark); }
+  .configurator__cta { text-align: center; padding-top: 1rem; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-configurator]').forEach((root) => {
+    const btns = root.querySelectorAll<HTMLButtonElement>('.configurator__btn');
+    const panels = root.querySelectorAll<HTMLElement>('.configurator__panel');
+    btns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+        btns.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        panels.forEach((p) => {
+          p.hidden = p.dataset.panel !== target;
+        });
+      });
+    });
+  });
+</script>

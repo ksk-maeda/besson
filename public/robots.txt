@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://besson.jp/sitemap-index.xml

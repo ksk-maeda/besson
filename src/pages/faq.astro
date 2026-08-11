@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const products = await getCollection('products');
+const seen = new Map<string, { q: string; a: string }>();
+for (const p of products) {
+  for (const f of p.data.faq) {
+    if (!seen.has(f.q)) seen.set(f.q, f);
+  }
+}
+const faqs = [...seen.values()];
+
+const general = [
+  {
+    q: '購入方法を教えてください。',
+    a: '現在、BESSONはAmazon経由でお取り扱いしています。詳しくは「Shop」ページの各モデルからAmazon商品ページへお進みください。',
+  },
+  {
+    q: '返品・交換はできますか？',
+    a: '初期不良の場合は交換対応いたします。お客様都合による返品は、未開封・未使用品に限り商品到着後8日以内のご連絡で対応します（返送料はお客様負担）。詳細は特定商取引法に基づく表記をご確認ください。',
+  },
+  {
+    q: '保証期間はどのくらいですか？',
+    a: '全モデルに1年間の製品保証が付属します。落下・水濡れ・誤使用などお客様起因の故障は保証対象外です。',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [...general, ...faqs].map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout title="FAQ" description="BESSONのワインセラーに関するよくある質問。購入・保証・設置・お手入れについて。" jsonLd={jsonLd}>
+  <section class="section faq-page">
+    <div class="container faq-page__inner">
+      <h1>よくある質問</h1>
+
+      <h2>ご購入・保証について</h2>
+      {general.map((f) => (
+        <details class="faq-item">
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+
+      <h2>製品について</h2>
+      {faqs.map((f) => (
+        <details class="faq-item">
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .faq-page__inner { max-width: 640px; }
+  .faq-page h1 { margin-bottom: 1.5rem; }
+  .faq-page h2 { font-size: 1rem; margin: 2rem 0 1rem; color: var(--gold); }
+  .faq-item { border-bottom: 1px solid var(--stone); padding: 0.9rem 0; }
+  .faq-item summary { cursor: pointer; font-size: 0.9rem; }
+  .faq-item p { margin-top: 0.6rem; font-size: 0.85rem; color: var(--gray-dark); }
+</style>

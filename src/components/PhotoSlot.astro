@@ -1,0 +1,13 @@
+---
+// 実写真が揃うまでのプレースホルダー。差し替え時はこのコンポーネントの中身を<img>に置き換えるだけでよい設計。
+interface Props {
+  ratio?: '3x4' | '16x9' | '1x1' | 'tall';
+  label?: string;
+  class?: string;
+}
+const { ratio = '3x4', label = '写真: 準備中', class: className } = Astro.props;
+---
+
+<div class={`photo-slot photo-slot--${ratio} ${className ?? ''}`}>
+  <span>{label}</span>
+</div>

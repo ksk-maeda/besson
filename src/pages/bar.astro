@@ -1,0 +1,107 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import { CATEGORIES } from '../lib/categories';
+
+const category = CATEGORIES.find((c) => c.key === 'bar')!;
+const c7 = await getEntry('products', 'c7');
+const p = c7!.data;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `BESSON The Bar ${p.model}`,
+  description: p.headline,
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'JPY',
+    price: p.price.replace(/[^0-9]/g, ''),
+    availability: 'https://schema.org/InStock',
+  },
+};
+---
+
+<BaseLayout
+  title={`The Bar — ${category.copy}`}
+  description={`${category.worldview}。BESSON The Bar C7、幅148mmのために専用開発した一点もの。`}
+  jsonLd={jsonLd}
+>
+  <section class="cat-hero">
+    <PhotoSlot ratio="tall" label="The Bar 世界観ビジュアル" />
+    <div class="cat-hero__overlay container">
+      <p class="section-label">The Bar</p>
+      <p class="tagline">{category.copy}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container bar-product">
+      <p class="bar-product__model">BESSON The Bar C7</p>
+      <p class="bar-product__price">{p.price}<span> 税込</span></p>
+      <p class="bar-product__headline">{p.headline}</p>
+
+      <ul class="bar-product__specs">
+        <li>収納本数 {p.bottles}本</li>
+        <li>外寸 {p.dimensions} mm</li>
+        <li>重量 {p.weightKg}kg</li>
+      </ul>
+
+      <a href="/products/c7" class="btn btn--outline">C7 の詳細を見る</a>
+    </div>
+  </section>
+
+  {p.fitFor.length > 0 && (
+    <section class="section">
+      <div class="container bar-fitfor">
+        <p class="section-label">こんな方に</p>
+        <ul>{p.fitFor.map((f) => <li>{f}</li>)}</ul>
+      </div>
+    </section>
+  )}
+
+  {p.highlights.map((h) => (
+    <section class="section">
+      <div class="container bar-feature">
+        <PhotoSlot ratio="16x9" label={h.title} />
+        <p class="bar-feature__title">{h.title}</p>
+        <p class="bar-feature__body">{h.body}</p>
+      </div>
+    </section>
+  ))}
+
+  <section class="section">
+    <div class="container bar-cta">
+      <a href="/shop" class="btn btn--primary btn--large">手に入れる</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .cat-hero { position: relative; }
+  .cat-hero__overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding-bottom: clamp(2rem, 6vw, 4rem);
+    color: var(--white);
+  }
+  .cat-hero__overlay .section-label { color: var(--gold-mid); }
+  .cat-hero__overlay .tagline { text-shadow: 0 2px 12px rgba(0,0,0,0.35); }
+
+  .bar-product { text-align: center; max-width: 480px; margin: 0 auto; }
+  .bar-product__model { font-family: var(--font-en); letter-spacing: 0.08em; color: var(--gold); margin-bottom: 0.4rem; }
+  .bar-product__price { font-family: var(--font-en); font-size: 1.6rem; margin-bottom: 1rem; }
+  .bar-product__price span { font-size: 0.75rem; color: var(--gray-mid); margin-left: 0.4rem; }
+  .bar-product__headline { font-family: var(--font-ja-serif); font-size: 1.1rem; margin-bottom: 1.5rem; }
+  .bar-product__specs { list-style: none; padding: 0; margin: 0 0 1.5rem; font-size: 0.85rem; color: var(--gray-dark); }
+
+  .bar-fitfor { max-width: 480px; margin: 0 auto; }
+  .bar-fitfor ul { padding-left: 1.1rem; margin: 0; }
+  .bar-fitfor li { margin-bottom: 0.5rem; }
+
+  .bar-feature { max-width: 640px; margin: 0 auto; text-align: center; }
+  .bar-feature__title { font-family: var(--font-en); font-size: 1.1rem; margin: 1rem 0 0.5rem; }
+  .bar-feature__body { color: var(--gray-dark); }
+
+  .bar-cta { text-align: center; }
+</style>

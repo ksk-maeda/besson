@@ -1,0 +1,30 @@
+{
+  "model": "C36",
+  "category": "lounge",
+  "categoryLabel": "The Lounge",
+  "bottles": 36,
+  "price": "¥88,800",
+  "priceHasVariants": false,
+  "dimensions": "幅430 × 奥行482 × 高さ1105",
+  "weightKg": 35,
+  "tempRange": "5〜18℃",
+  "tempZones": "2（上下独立）ゾーン",
+  "heating": true,
+  "powerW": 85,
+  "annualCostYen": "約3,500〜4,500円前後",
+  "shelfMaterial": "木製",
+  "doorType": "プラスチック",
+  "interiorLight": true,
+  "sku": null,
+  "shelfConfig": null,
+  "bundledItems": null,
+  "warrantyYears": 1,
+  "headline": "The Lounge シリーズのC36。上下独立の二温管理。",
+  "headlineIsDraft": false,
+  "fitFor": [],
+  "highlights": [],
+  "faq": [
+    { "q": "本体の側面が熱くなりますが故障ですか？", "a": "故障ではありません。コンプレッサー式は庫内から奪った熱を本体側面から放熱する仕組みのため、冷却稼働中は側面が温かくなります。放熱が妨げられると冷却効率の低下や故障の原因になりますので、左右・背面に十分な放熱スペースを確保してください。" },
+    { "q": "廃棄するときはどうすればいいですか？", "a": "家電リサイクル法の対象品です。廃棄時は収集・運搬料金と再商品化料金をお支払いのうえ、販売店または市町村に引き渡してください。新品ご購入の際はリサイクル回収も承っております（別途料金）。" }
+  ]
+}

@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CATEGORIES } from '../lib/categories';
+
+const products = await getCollection('products');
+const storyOrder = ['bistro', 'lounge', 'bar', 'grand-maison'];
+const cats = storyOrder.map((k) => CATEGORIES.find((c) => c.key === k)!);
+
+function productsFor(catKey: string) {
+  return products.filter((p) => p.data.category === catKey).sort((a, b) => a.data.bottles - b.data.bottles);
+}
+
+// TODO: Amazon商品ページのURL（型番ごとのASIN）が未整備。取得後、各行の href を実URLに差し替える。
+const AMAZON_STORE_URL = 'https://www.amazon.co.jp/stores/BESSON';
+---
+
+<BaseLayout title="Shop" description="BESSONの購入は現在Amazon経由での取り扱いです。全11モデルの一覧から選べます。">
+  <section class="section shop">
+    <div class="container">
+      <h1>Shop</h1>
+      <p class="shop__lead">
+        現在、BESSONはAmazonでお取り扱いしています。自社ストアでの直接販売は準備中です。
+      </p>
+
+      {cats.map((c) => (
+        <div class="shop__group">
+          <h2>{c.name}</h2>
+          <table class="shop__table">
+            <tbody>
+              {productsFor(c.key).map((p) => (
+                <tr>
+                  <td><a href={`/products/${p.id}`}>BESSON {p.data.model}</a></td>
+                  <td>{p.data.bottles}本</td>
+                  <td>{p.data.price}</td>
+                  <td><a class="btn btn--outline" href={AMAZON_STORE_URL} target="_blank" rel="noopener">Amazonで見る</a></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .shop h1 { margin-bottom: 1rem; }
+  .shop__lead { color: var(--gray-dark); margin-bottom: 2.5rem; }
+  .shop__group { margin-bottom: 2.5rem; }
+  .shop__group h2 { font-family: var(--font-en); font-size: 1.1rem; margin-bottom: 1rem; color: var(--gold); }
+  .shop__table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .shop__table td { padding: 0.7rem 0.5rem; border-bottom: 1px solid var(--stone); vertical-align: middle; }
+  .shop__table a:not(.btn) { text-decoration: underline; }
+</style>

@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="プライバシーポリシー" description="BESSON（リンテクト・ジャパン株式会社）のプライバシーポリシー。">
+  <section class="section privacy">
+    <div class="container privacy__inner">
+      <h1>プライバシーポリシー</h1>
+      <p class="privacy__draft-note">
+        ※このページは一般的なひな形をもとにした下書きです。公開前に内容を確認・修正してください（法的な確認が必要な場合は専門家へ）。
+      </p>
+
+      <p>
+        リンテクト・ジャパン株式会社（以下「当社」）は、BESSON公式サイト（以下「本サイト」）において、お客様の個人情報を以下の方針に基づき取り扱います。
+      </p>
+
+      <h2>取得する情報</h2>
+      <p>
+        お問い合わせフォームおよびメール登録フォームを通じて、お名前・メールアドレス・お問い合わせ内容をお預かりします。
+      </p>
+
+      <h2>利用目的</h2>
+      <p>
+        お預かりした情報は、お問い合わせへの回答、製品・ブランドに関する情報提供の目的にのみ利用し、目的外の利用は行いません。
+      </p>
+
+      <h2>第三者提供</h2>
+      <p>
+        法令に基づく場合を除き、お客様の同意なく個人情報を第三者に提供することはありません。
+      </p>
+
+      <h2>アクセス解析について</h2>
+      <p>
+        本サイトはサービス改善のためアクセス解析ツールを利用する場合があります。取得される情報に個人を特定する情報は含まれません。
+      </p>
+
+      <h2>お問い合わせ窓口</h2>
+      <p>
+        本ポリシーに関するお問い合わせは <a href="mailto:info@besson.jp">info@besson.jp</a> まで、または<a href="/contact">お問い合わせフォーム</a>よりご連絡ください。
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .privacy__inner { max-width: 640px; }
+  .privacy h1 { margin-bottom: 0.75rem; }
+  .privacy__draft-note {
+    font-size: 0.75rem;
+    color: var(--wine);
+    background: var(--cream);
+    padding: 0.75rem 1rem;
+    margin-bottom: 2rem;
+  }
+  .privacy h2 { font-size: 1rem; margin: 2rem 0 0.75rem; color: var(--gold); }
+  .privacy p { color: var(--gray-dark); margin-bottom: 1rem; }
+  .privacy a { text-decoration: underline; }
+</style>
