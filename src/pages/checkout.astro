@@ -110,6 +110,11 @@ const publishableKey = import.meta.env.PUBLIC_STRIPE_PUBLISHABLE_KEY;
           confirmParams: {
             return_url: `${window.location.origin}/checkout/success`,
             receipt_email: email,
+            // shippingはWebhook経由でSlack注文通知に載る（物流チームがロジレスへ転記する情報）
+            shipping: {
+              name,
+              address: { line1: address },
+            },
             payment_method_data: {
               billing_details: {
                 name,
