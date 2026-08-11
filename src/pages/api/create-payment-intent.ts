@@ -36,11 +36,19 @@ export const POST: APIRoute = async ({ request }) => {
   const lineItems: { model: string; qty: number; unitPrice: number }[] = [];
 
   for (const item of items) {
+    const qty = Math.max(1, Math.min(10, Math.floor(item.qty)));
+
+    // 動作確認用の隠しテスト商品（/test-purchase からのみ購入。カタログ非掲載）
+    if (item.slug === 'test-item') {
+      amountYen += 100 * qty;
+      lineItems.push({ model: 'テスト商品（動作確認用）', qty, unitPrice: 100 });
+      continue;
+    }
+
     const product = products.find((p) => p.id === item.slug);
     if (!product) {
       return new Response(JSON.stringify({ error: `不明な商品: ${item.slug}` }), { status: 400 });
     }
-    const qty = Math.max(1, Math.min(10, Math.floor(item.qty)));
     const unitPrice = Number(product.data.price.replace(/[^0-9]/g, ''));
     if (!unitPrice) {
       return new Response(JSON.stringify({ error: `価格未設定の商品: ${item.slug}` }), { status: 400 });
