@@ -59,9 +59,17 @@ export const POST: APIRoute = async ({ request }) => {
 
   const stripe = new Stripe(secretKey);
 
+  // 領収書メール等のStripe発信物を確実に日本語にするため、日本語ロケールの顧客を作成して紐付ける
+  // （Stripeの領収書言語は顧客のpreferred_localesを最優先で参照する仕様）
+  const customer = await stripe.customers.create({
+    preferred_locales: ['ja'],
+    email: body.email || undefined,
+  });
+
   const paymentIntent = await stripe.paymentIntents.create({
     amount: amountYen, // JPYはゼロ小数通貨（100円=100、円未満の単位なし）
     currency: 'jpy',
+    customer: customer.id,
     receipt_email: body.email || undefined,
     metadata: {
       items: JSON.stringify(lineItems),
